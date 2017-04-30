@@ -1,6 +1,11 @@
-﻿using Microsoft.Practices.Unity;
+﻿using System;
+using Microsoft.Practices.Unity;
 using Musicfy.Bll.Contracts;
 using Musicfy.Bll.Services;
+using Musicfy.Dal.Contracts;
+using Musicfy.Dal.Repositories;
+using Musicfy.Infrastructure.Configs;
+using Neo4jClient;
 
 namespace Musicfy.DI
 {
@@ -56,7 +61,16 @@ namespace Musicfy.DI
 
         private static void RegisterDalLayer(IUnityContainer container)
         {
-            
+            container.RegisterType<IGraphClient, GraphClient>(new PerRequestLifetimeManager(), new InjectionFactory(
+                a =>
+                {
+                    var client = new GraphClient(new Uri(Config.GraphDbUrl), Config.GraphDbUser, Config.GraphDbPassword);
+                    client.Connect();
+
+                    return client;
+                }));
+
+            container.RegisterType<IArtistRepository, ArtistRepository>();
         }
 
         private static void RegisterBllLayer(IUnityContainer container)

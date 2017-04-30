@@ -1,4 +1,5 @@
 ﻿using System.Web.Mvc;
+using MusicfyApi.Attributes;
 
 namespace MusicfyApi
 {
@@ -7,6 +8,7 @@ namespace MusicfyApi
         public static void RegisterGlobalFilters(GlobalFilterCollection filters)
         {
             filters.Add(new HandleErrorAttribute());
+
         }
     }
 }

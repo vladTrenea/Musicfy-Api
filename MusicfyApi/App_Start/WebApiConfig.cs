@@ -2,6 +2,7 @@
 using System.Web.Http.Cors;
 using Microsoft.Practices.Unity.WebApi;
 using Musicfy.DI;
+using MusicfyApi.Attributes;
 
 namespace MusicfyApi
 {
@@ -14,6 +15,8 @@ namespace MusicfyApi
 
             var cors = new EnableCorsAttribute("*", "*", "*");
             config.EnableCors(cors);
+
+            config.Filters.Add(new CustomExceptionFilterAttribute());
 
             // Web API routes
             config.MapHttpAttributeRoutes();

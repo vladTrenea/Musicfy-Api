@@ -1,4 +1,5 @@
-﻿using System.Web.Http;
+﻿using System.Collections.Generic;
+using System.Web.Http;
 using Musicfy.Bll.Contracts;
 using Musicfy.Bll.Models;
 
@@ -14,9 +15,15 @@ namespace MusicfyApi.Controllers
         }
 
         [HttpGet]
-        public ArtistModel Get([FromUri] int id)
+        public ArtistModel Get([FromUri] string id)
         {
             return _artistService.GetById(id);
+        }
+
+        [HttpGet]
+        public IEnumerable<ArtistModel> Get()
+        {
+            return _artistService.GetAll();
         }
     }
 }

@@ -1,11 +1,12 @@
-﻿using Musicfy.Bll.Models;
+﻿using System.Collections.Generic;
+using Musicfy.Bll.Models;
 
 namespace Musicfy.Bll.Contracts
 {
     public interface IArtistService
     {
-        ArtistModel GetById(int id);
+        ArtistModel GetById(string id);
 
-        ArtistModel GetByName(string name);
+        IEnumerable<ArtistModel> GetAll();
     }
 }

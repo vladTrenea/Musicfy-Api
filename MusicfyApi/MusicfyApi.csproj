@@ -64,6 +64,18 @@
       <HintPath>..\packages\Newtonsoft.Json.10.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Serilog, Version=2.0.0.0, Culture=neutral, PublicKeyToken=24c2f752a8e58a10, processorArchitecture=MSIL">
+      <HintPath>..\packages\Serilog.2.4.0\lib\net46\Serilog.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Serilog.Sinks.File, Version=2.0.0.0, Culture=neutral, PublicKeyToken=24c2f752a8e58a10, processorArchitecture=MSIL">
+      <HintPath>..\packages\Serilog.Sinks.File.3.2.0\lib\net45\Serilog.Sinks.File.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Serilog.Sinks.RollingFile, Version=2.0.0.0, Culture=neutral, PublicKeyToken=24c2f752a8e58a10, processorArchitecture=MSIL">
+      <HintPath>..\packages\Serilog.Sinks.RollingFile.3.3.0\lib\net45\Serilog.Sinks.RollingFile.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -131,12 +143,12 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Attributes\CustomExceptionFilterAttribute.cs" />
     <Compile Include="Controllers\ArtistsController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -162,6 +174,10 @@
     <ProjectReference Include="..\Musicfy.DI\Musicfy.DI.csproj">
       <Project>{94f94ddd-7a74-4c79-b9b4-6174c3a4ab2e}</Project>
       <Name>Musicfy.DI</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Musicfy.Infrastructure\Musicfy.Infrastructure.csproj">
+      <Project>{39E81C6B-D086-4122-B9F3-4729294E69AA}</Project>
+      <Name>Musicfy.Infrastructure</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
