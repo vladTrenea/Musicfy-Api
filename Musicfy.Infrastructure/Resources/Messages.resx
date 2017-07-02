@@ -123,4 +123,19 @@
   <data name="InvalidArtistId" xml:space="preserve">
     <value>Invalid artist id</value>
   </data>
+  <data name="InvalidLogin" xml:space="preserve">
+    <value>Invalid username or password</value>
+  </data>
+  <data name="InvalidPaginationInput" xml:space="preserve">
+    <value>Invalid pagination input</value>
+  </data>
+  <data name="PasswordRequired" xml:space="preserve">
+    <value>Password is required</value>
+  </data>
+  <data name="Unauthorized" xml:space="preserve">
+    <value>Action requires authorization</value>
+  </data>
+  <data name="UsernameRequired" xml:space="preserve">
+    <value>Username is required</value>
+  </data>
 </root>

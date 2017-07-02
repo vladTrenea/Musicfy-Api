@@ -35,5 +35,22 @@ namespace Musicfy.Bll.Services
 
             return artists.Select(ArtistMapper.ToArtistModel);
         }
+
+        public PaginationModel<ArtistModel> GetPaginated(int pageNumber, int count)
+        {
+            if (pageNumber < 1 || count < 0)
+            {
+                throw new ValidationException(Messages.InvalidPaginationInput);
+            }
+
+            var artists = _artistRepository.GetPaginated(pageNumber, count);
+            var paginationModel = new PaginationModel<ArtistModel>()
+            {
+                Page = pageNumber,
+                Items = artists.Select(ArtistMapper.ToArtistModel)
+            };
+
+            return paginationModel;
+        }
     }
 }

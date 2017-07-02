@@ -2,6 +2,7 @@
 using Microsoft.Practices.Unity;
 using Musicfy.Bll.Contracts;
 using Musicfy.Bll.Services;
+using Musicfy.Bll.Utils;
 using Musicfy.Dal.Contracts;
 using Musicfy.Dal.Repositories;
 using Musicfy.Infrastructure.Configs;
@@ -55,6 +56,7 @@ namespace Musicfy.DI
 
         private static void RegisterTypes(IUnityContainer container)
         {
+            RegisterAuthorizationTokensCache();
             RegisterBllLayer(container);
             RegisterDalLayer(container);
         }
@@ -71,11 +73,23 @@ namespace Musicfy.DI
                 }));
 
             container.RegisterType<IArtistRepository, ArtistRepository>();
+            container.RegisterType<IUserRepository, UserRepository>();
         }
 
         private static void RegisterBllLayer(IUnityContainer container)
         {
             container.RegisterType<IArtistService, ArtistService>();
+            container.RegisterType<IAccountService, AccountService>();
+        }
+
+        private static void RegisterAuthorizationTokensCache()
+        {
+            if (!AuthorizationCache.Instance.Initialized)
+            {
+                var initializer = new AuthorizationCache.AuthorizationCacheInitializer();
+
+                initializer.Initialize(AuthorizationCache.Instance);
+            }
         }
 
         #endregion

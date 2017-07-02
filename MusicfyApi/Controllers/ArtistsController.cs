@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
-using System.Web.Http;
+﻿using System.Web.Http;
 using Musicfy.Bll.Contracts;
 using Musicfy.Bll.Models;
+using Musicfy.Infrastructure.Configs;
 
 namespace MusicfyApi.Controllers
 {
@@ -21,9 +21,9 @@ namespace MusicfyApi.Controllers
         }
 
         [HttpGet]
-        public IEnumerable<ArtistModel> Get()
+        public PaginationModel<ArtistModel> Get(int pageNumber)
         {
-            return _artistService.GetAll();
+            return _artistService.GetPaginated(pageNumber, Config.ArtistsPageCount);
         }
     }
 }

@@ -23,5 +23,10 @@ namespace Musicfy.Infrastructure.Configs
         {
             get { return ConfigurationManager.AppSettings["GraphDbPassword"]; }
         }
+
+        public static int ArtistsPageCount
+        {
+            get { return int.Parse(ConfigurationManager.AppSettings["ArtistsPageCount"]); }
+        }
     }
 }

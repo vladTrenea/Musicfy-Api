@@ -8,5 +8,7 @@ namespace Musicfy.Bll.Contracts
         ArtistModel GetById(string id);
 
         IEnumerable<ArtistModel> GetAll();
+
+        PaginationModel<ArtistModel> GetPaginated(int pageNumber, int count);
     }
 }

@@ -40,11 +40,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Contracts\IAccountService.cs" />
     <Compile Include="Contracts\IArtistService.cs" />
     <Compile Include="Mappers\ArtistMapper.cs" />
     <Compile Include="Models\ArtistModel.cs" />
+    <Compile Include="Models\LoginModel.cs" />
+    <Compile Include="Models\PaginationModel.cs" />
+    <Compile Include="Models\UserAuthorizationModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\AccountService.cs" />
     <Compile Include="Services\ArtistService.cs" />
+    <Compile Include="Utils\AuthorizationCache.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Musicfy.Dal\Musicfy.Dal.csproj">

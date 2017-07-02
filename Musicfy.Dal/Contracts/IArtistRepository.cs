@@ -8,5 +8,7 @@ namespace Musicfy.Dal.Contracts
         Artist GetById(string id);
 
         IEnumerable<Artist> GetAll();
+
+        IEnumerable<Artist> GetPaginated(int pageNumber, int count);
     }
 }

@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using Musicfy.Dal.Contracts;
 using Musicfy.Dal.Entities;
@@ -24,6 +23,17 @@ namespace Musicfy.Dal.Repositories
         public IEnumerable<Artist> GetAll()
         {
             return _graphClient.Cypher.Match("(artist:Artist)").Return(artist => artist.As<Artist>()).Results;
+        }
+
+        public IEnumerable<Artist> GetPaginated(int pageNumber, int count)
+        {
+            return
+                _graphClient.Cypher.Match("(artist:Artist)")
+                    .Skip(pageNumber*count)
+                    .Limit(count)
+                    .OrderBy("name")
+                    .Return(artist => artist.As<Artist>())
+                    .Results;
         }
     }
 }
