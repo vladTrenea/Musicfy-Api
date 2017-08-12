@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using Musicfy.Bll.Models;
 
 namespace Musicfy.Bll.Utils
@@ -67,17 +66,17 @@ namespace Musicfy.Bll.Utils
 
         public void AddOrUpdateAuthorization(UserAuthorizationModel authorization)
         {
-            if (authorization != null && !string.IsNullOrWhiteSpace(authorization.token))
+            if (authorization != null && !string.IsNullOrWhiteSpace(authorization.Token))
             {
                 lock (_instanceLock)
                 {
-                    if (!_authorizationModels.ContainsKey(authorization.token))
+                    if (!_authorizationModels.ContainsKey(authorization.Token))
                     {
-                        _authorizationModels.Add(authorization.token, authorization);
+                        _authorizationModels.Add(authorization.Token, authorization);
                     }
                     else
                     {
-                        _authorizationModels[authorization.token] = authorization;
+                        _authorizationModels[authorization.Token] = authorization;
                     }
                 }
             }

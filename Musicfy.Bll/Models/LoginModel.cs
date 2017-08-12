@@ -1,9 +1,13 @@
-﻿namespace Musicfy.Bll.Models
+﻿using Newtonsoft.Json;
+
+namespace Musicfy.Bll.Models
 {
     public class LoginModel
     {
-        public string username { get; set; }
+        [JsonProperty("username")]
+        public string Username { get; set; }
 
-        public string password { get; set; }
+        [JsonProperty("password")]
+        public string Password { get; set; }
     }
 }

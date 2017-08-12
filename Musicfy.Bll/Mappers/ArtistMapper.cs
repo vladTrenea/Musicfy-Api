@@ -15,10 +15,28 @@ namespace Musicfy.Bll.Mappers
             var artistModel = new ArtistModel
             {
                 Id = artist.id,
-                Name = artist.name
+                Name = artist.name,
+                Description = artist.description
             };
 
             return artistModel;
         }
+
+        public static Artist ToArtist(ArtistModel artistModel)
+        {
+            if (artistModel == null)
+            {
+                return null;
+            }
+
+            var artist = new Artist
+            {
+                id = artistModel.Id,
+                name = artistModel.Name,
+                description = artistModel.Description
+            };
+
+            return artist;
+        } 
     }
 }

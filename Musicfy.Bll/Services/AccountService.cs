@@ -19,18 +19,18 @@ namespace Musicfy.Bll.Services
 
         public UserAuthorizationModel Login(LoginModel loginModel)
         {
-            if (string.IsNullOrEmpty(loginModel.username))
+            if (string.IsNullOrEmpty(loginModel.Username))
             {
                 throw new ValidationException(Messages.UsernameRequired);
             }
 
-            if (string.IsNullOrEmpty(loginModel.password))
+            if (string.IsNullOrEmpty(loginModel.Password))
             {
                 throw new ValidationException(Messages.PasswordRequired);
             }
 
-            var hashedPass = HashUtils.EncodeString(loginModel.password);
-            var user = _userRepository.GetByCredentials(loginModel.username, hashedPass);
+            var hashedPass = HashUtils.EncodeString(loginModel.Password);
+            var user = _userRepository.GetByCredentials(loginModel.Username, hashedPass);
 
             if (user == null)
             {
@@ -39,10 +39,10 @@ namespace Musicfy.Bll.Services
 
             var authorization = new UserAuthorizationModel
             {
-                id = user.id,
-                username = user.username,
-                isAdmin = user.isAdmin,
-                token = SecurityUtils.GenerateToken()
+                Id = user.id,
+                Username = user.username,
+                IsAdmin = user.isAdmin,
+                Token = SecurityUtils.GenerateToken()
             };
 
             AuthorizationCache.Instance.AddOrUpdateAuthorization(authorization);

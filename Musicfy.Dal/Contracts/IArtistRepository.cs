@@ -7,8 +7,10 @@ namespace Musicfy.Dal.Contracts
     {
         Artist GetById(string id);
 
-        IEnumerable<Artist> GetAll();
+        Artist GetByName(string name);
 
         IEnumerable<Artist> GetPaginated(int pageNumber, int count);
+
+        void Add(Artist artist);
     }
 }

@@ -2,6 +2,7 @@
 using System.Net;
 using System.Net.Http;
 using System.Web.Http.Filters;
+using Musicfy.Bll.Models;
 using Musicfy.Infrastructure.Configs;
 using Musicfy.Infrastructure.Exceptions;
 using Musicfy.Infrastructure.Resources;
@@ -28,33 +29,33 @@ namespace MusicfyApi.Attributes
 
             if (exception is UnauthorizedException)
             {
-                actionExecutedContext.Response = request.CreateErrorResponse(HttpStatusCode.Unauthorized, exception.Message);
+                actionExecutedContext.Response = request.CreateResponse(HttpStatusCode.Unauthorized, new ErrorModel(exception.Message));
 
                 return;
             }
 
             if (exception is NotFoundException)
             {
-                actionExecutedContext.Response = request.CreateErrorResponse(HttpStatusCode.NotFound, exception.Message);
+                actionExecutedContext.Response = request.CreateResponse(HttpStatusCode.NotFound, new ErrorModel(exception.Message));
 
                 return;
             }
 
             if (exception is ValidationException)
             {
-                actionExecutedContext.Response = request.CreateErrorResponse(HttpStatusCode.BadRequest, exception.Message);
+                actionExecutedContext.Response = request.CreateResponse(HttpStatusCode.BadRequest, new ErrorModel(exception.Message));
 
                 return;
             }
 
             if (exception is ConflictException)
             {
-                actionExecutedContext.Response = request.CreateErrorResponse(HttpStatusCode.Conflict, exception.Message);
+                actionExecutedContext.Response = request.CreateResponse(HttpStatusCode.Conflict, new ErrorModel(exception.Message));
 
                 return;
             }
 
-            actionExecutedContext.Response = request.CreateErrorResponse(HttpStatusCode.InternalServerError, Messages.InternalServerError);
+            actionExecutedContext.Response = request.CreateResponse(HttpStatusCode.InternalServerError, new ErrorModel(Messages.InternalServerError));
             Logger.Error(exception, Messages.InternalServerError);
         }
     }

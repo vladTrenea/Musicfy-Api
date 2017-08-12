@@ -25,5 +25,11 @@ namespace MusicfyApi.Controllers
         {
             return _artistService.GetPaginated(pageNumber, Config.ArtistsPageCount);
         }
+
+        [HttpPost]
+        public void Post([FromBody] ArtistModel artist)
+        {
+            _artistService.Add(artist);
+        }
     }
 }

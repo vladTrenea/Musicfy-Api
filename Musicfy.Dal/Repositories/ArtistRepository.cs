@@ -14,26 +14,40 @@ namespace Musicfy.Dal.Repositories
 
         public Artist GetById(string id)
         {
-            return _graphClient.Cypher.Match("(artist:Artist)")
+            return _graphClient.Cypher
+                .Match("(artist:Artist)")
                 .Where((Artist artist) => artist.id == id)
                 .Return(artist => artist.As<Artist>())
-                .Results.FirstOrDefault();
+                .Results
+                .FirstOrDefault();
         }
 
-        public IEnumerable<Artist> GetAll()
+        public Artist GetByName(string name)
         {
-            return _graphClient.Cypher.Match("(artist:Artist)").Return(artist => artist.As<Artist>()).Results;
+            return _graphClient.Cypher
+                .Match("(artist:Artist)")
+                .Where((Artist artist) => artist.name == name)
+                .Return(artist => artist.As<Artist>())
+                .Results
+                .FirstOrDefault();
         }
 
         public IEnumerable<Artist> GetPaginated(int pageNumber, int count)
         {
-            return
-                _graphClient.Cypher.Match("(artist:Artist)")
-                    .Skip(pageNumber*count)
-                    .Limit(count)
-                    .OrderBy("name")
+            return _graphClient.Cypher.Match("(artist:Artist)")
+                    //                    .Skip((pageNumber - 1) * count)
+                    //                    .Limit(count)
+                    //                    .OrderBy("name")
                     .Return(artist => artist.As<Artist>())
                     .Results;
+        }
+
+        public void Add(Artist artist)
+        {
+            _graphClient.Cypher
+                .Create("(artist:Artist {newArtist})")
+                .WithParam("newArtist", artist)
+                .ExecuteWithoutResults();
         }
     }
 }

@@ -8,5 +8,10 @@ namespace Musicfy.Infrastructure.Utils
         {
             return Guid.NewGuid().ToString();
         }
+
+        public static string GenerateEntityId()
+        {
+            return Guid.NewGuid().ToString();
+        }
     }
 }

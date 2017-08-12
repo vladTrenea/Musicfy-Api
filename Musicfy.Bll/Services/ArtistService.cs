@@ -1,11 +1,11 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using Musicfy.Bll.Contracts;
 using Musicfy.Bll.Mappers;
 using Musicfy.Bll.Models;
 using Musicfy.Dal.Contracts;
 using Musicfy.Infrastructure.Exceptions;
 using Musicfy.Infrastructure.Resources;
+using Musicfy.Infrastructure.Utils;
 
 namespace Musicfy.Bll.Services
 {
@@ -29,13 +29,6 @@ namespace Musicfy.Bll.Services
             return ArtistMapper.ToArtistModel(artist);
         }
 
-        public IEnumerable<ArtistModel> GetAll()
-        {
-            var artists = _artistRepository.GetAll();
-
-            return artists.Select(ArtistMapper.ToArtistModel);
-        }
-
         public PaginationModel<ArtistModel> GetPaginated(int pageNumber, int count)
         {
             if (pageNumber < 1 || count < 0)
@@ -47,10 +40,35 @@ namespace Musicfy.Bll.Services
             var paginationModel = new PaginationModel<ArtistModel>()
             {
                 Page = pageNumber,
-                Items = artists.Select(ArtistMapper.ToArtistModel)
+                Items = artists.Select(ArtistMapper.ToArtistModel),
+                TotalPages = 1
             };
 
             return paginationModel;
+        }
+
+        public void Add(ArtistModel artistModel)
+        {
+            if (string.IsNullOrEmpty(artistModel.Name))
+            {
+                throw new ValidationException(Messages.ArtistNameRequired);
+            }
+
+            if (string.IsNullOrEmpty(artistModel.Description))
+            {
+                throw new ValidationException(Messages.ArtistDescriptionRequired);
+            }
+
+            var artistByName = _artistRepository.GetByName(artistModel.Name);
+            if (artistByName != null)
+            {
+                throw new ConflictException(Messages.ArtistNameAlreadyExists);
+            }
+
+            var artist = ArtistMapper.ToArtist(artistModel);
+            artist.id = SecurityUtils.GenerateEntityId();
+
+            _artistRepository.Add(artist);
         }
     }
 }

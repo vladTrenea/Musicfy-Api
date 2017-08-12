@@ -1,13 +1,19 @@
-﻿namespace Musicfy.Bll.Models
+﻿using Newtonsoft.Json;
+
+namespace Musicfy.Bll.Models
 {
     public class UserAuthorizationModel
     {
-        public string id { get; set; }
+        [JsonProperty("id")]
+        public string Id { get; set; }
 
-        public string username { get; set; }
+        [JsonProperty("username")]
+        public string Username { get; set; }
 
-        public string token { get; set; }
+        [JsonProperty("token")]
+        public string Token { get; set; }
 
-        public bool isAdmin { get; set; }
+        [JsonProperty("isAdmin")]
+        public bool IsAdmin { get; set; }
     }
 }

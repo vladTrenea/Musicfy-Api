@@ -61,6 +61,33 @@ namespace Musicfy.Infrastructure.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Artist description is required.
+        /// </summary>
+        public static string ArtistDescriptionRequired {
+            get {
+                return ResourceManager.GetString("ArtistDescriptionRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Artist name already exists.
+        /// </summary>
+        public static string ArtistNameAlreadyExists {
+            get {
+                return ResourceManager.GetString("ArtistNameAlreadyExists", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Artist name is required.
+        /// </summary>
+        public static string ArtistNameRequired {
+            get {
+                return ResourceManager.GetString("ArtistNameRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Internal Server Error.
         /// </summary>
         public static string InternalServerError {
