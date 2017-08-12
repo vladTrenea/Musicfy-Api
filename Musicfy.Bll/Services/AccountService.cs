@@ -39,9 +39,9 @@ namespace Musicfy.Bll.Services
 
             var authorization = new UserAuthorizationModel
             {
-                Id = user.id,
-                Username = user.username,
-                IsAdmin = user.isAdmin,
+                Id = user.Id,
+                Username = user.Username,
+                IsAdmin = user.IsAdmin,
                 Token = SecurityUtils.GenerateToken()
             };
 

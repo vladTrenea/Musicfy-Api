@@ -15,7 +15,7 @@ namespace Musicfy.Dal.Repositories
         public User GetById(string id)
         {
             return _graphClient.Cypher.Match("(user:User)")
-                .Where((User user) => user.id == id)
+                .Where((User user) => user.Id == id)
                 .Return(user => user.As<User>())
                 .Results.FirstOrDefault();
         }
@@ -23,7 +23,7 @@ namespace Musicfy.Dal.Repositories
         public User GetByCredentials(string username, string password)
         {
             return _graphClient.Cypher.Match("(user:User)")
-                .Where((User user) => user.username == username && user.password == password)
+                .Where((User user) => user.Username == username && user.Password == password)
                 .Return(user => user.As<User>())
                 .Results.FirstOrDefault();
         }

@@ -16,7 +16,7 @@ namespace Musicfy.Dal.Repositories
         {
             return _graphClient.Cypher
                 .Match("(artist:Artist)")
-                .Where((Artist artist) => artist.id == id)
+                .Where((Artist artist) => artist.Id == id)
                 .Return(artist => artist.As<Artist>())
                 .Results
                 .FirstOrDefault();
@@ -26,7 +26,7 @@ namespace Musicfy.Dal.Repositories
         {
             return _graphClient.Cypher
                 .Match("(artist:Artist)")
-                .Where((Artist artist) => artist.name == name)
+                .Where((Artist artist) => artist.Name == name)
                 .Return(artist => artist.As<Artist>())
                 .Results
                 .FirstOrDefault();

@@ -14,9 +14,9 @@ namespace Musicfy.Bll.Mappers
 
             var artistModel = new ArtistModel
             {
-                Id = artist.id,
-                Name = artist.name,
-                Description = artist.description
+                Id = artist.Id,
+                Name = artist.Name,
+                Description = artist.Description
             };
 
             return artistModel;
@@ -31,9 +31,9 @@ namespace Musicfy.Bll.Mappers
 
             var artist = new Artist
             {
-                id = artistModel.Id,
-                name = artistModel.Name,
-                description = artistModel.Description
+                Id = artistModel.Id,
+                Name = artistModel.Name,
+                Description = artistModel.Description
             };
 
             return artist;

@@ -66,7 +66,7 @@ namespace Musicfy.Bll.Services
             }
 
             var artist = ArtistMapper.ToArtist(artistModel);
-            artist.id = SecurityUtils.GenerateEntityId();
+            artist.Id = SecurityUtils.GenerateEntityId();
 
             _artistRepository.Add(artist);
         }

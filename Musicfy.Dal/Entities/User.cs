@@ -1,15 +1,19 @@
-﻿using System.Security.AccessControl;
+﻿using Newtonsoft.Json;
 
 namespace Musicfy.Dal.Entities
 {
     public class User
     {
-        public string id { get; set; }
+        [JsonProperty("id")]
+        public string Id { get; set; }
 
-        public string username { get; set; }
+        [JsonProperty("username")]
+        public string Username { get; set; }
 
-        public string password { get; set; }
+        [JsonProperty("password")]
+        public string Password { get; set; }
 
-        public bool isAdmin { get; set; }
+        [JsonProperty("isAdmin")]
+        public bool IsAdmin { get; set; }
     }
 }
