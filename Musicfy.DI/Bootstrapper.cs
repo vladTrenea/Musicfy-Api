@@ -75,6 +75,7 @@ namespace Musicfy.DI
             container.RegisterType<IArtistRepository, ArtistRepository>();
             container.RegisterType<IUserRepository, UserRepository>();
             container.RegisterType<ISongCategoryRepository, SongCategoryRepository>();
+            container.RegisterType<IInstrumentRepository, InstrumentRepository>();
         }
 
         private static void RegisterBllLayer(IUnityContainer container)
@@ -82,6 +83,7 @@ namespace Musicfy.DI
             container.RegisterType<IArtistService, ArtistService>();
             container.RegisterType<IAccountService, AccountService>();
             container.RegisterType<ISongCategoryService, SongCategoryService>();
+            container.RegisterType<IInstrumentService, InstrumentService>();
         }
 
         private static void RegisterAuthorizationTokensCache()

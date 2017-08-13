@@ -2,7 +2,7 @@
 
 namespace Musicfy.Bll.Models
 {
-    public class SongCategoryModel
+    public class InstrumentModel
     {
         [JsonProperty("id")]
         public string Id { get; set; }

@@ -1,8 +1,8 @@
 ﻿using Newtonsoft.Json;
 
-namespace Musicfy.Bll.Models
+namespace Musicfy.Dal.Entities
 {
-    public class SongCategoryModel
+    public class Instrument
     {
         [JsonProperty("id")]
         public string Id { get; set; }

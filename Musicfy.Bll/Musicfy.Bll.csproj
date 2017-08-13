@@ -46,11 +46,14 @@
   <ItemGroup>
     <Compile Include="Contracts\IAccountService.cs" />
     <Compile Include="Contracts\IArtistService.cs" />
+    <Compile Include="Contracts\IInstrumentService.cs" />
     <Compile Include="Contracts\ISongCategoryService.cs" />
     <Compile Include="Mappers\ArtistMapper.cs" />
+    <Compile Include="Mappers\InstrumentMapper.cs" />
     <Compile Include="Mappers\SongCategoryMapper.cs" />
     <Compile Include="Models\ArtistModel.cs" />
     <Compile Include="Models\ErrorModel.cs" />
+    <Compile Include="Models\InstrumentModel.cs" />
     <Compile Include="Models\LoginModel.cs" />
     <Compile Include="Models\PaginationModel.cs" />
     <Compile Include="Models\SongCategoryModel.cs" />
@@ -58,6 +61,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\AccountService.cs" />
     <Compile Include="Services\ArtistService.cs" />
+    <Compile Include="Services\InstrumentService.cs" />
     <Compile Include="Services\SongCategoryService.cs" />
     <Compile Include="Utils\AuthorizationCache.cs" />
   </ItemGroup>
