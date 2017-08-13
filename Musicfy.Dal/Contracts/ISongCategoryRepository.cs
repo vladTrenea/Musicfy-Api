@@ -8,5 +8,13 @@ namespace Musicfy.Dal.Contracts
         IEnumerable<SongCategory> GetAll();
 
         SongCategory GetById(string id);
+
+        SongCategory GetByName(string name);
+
+        void Add(SongCategory songCategory);
+
+        void Update(SongCategory songCategory);
+
+        void Delete(string id);
     }
 }

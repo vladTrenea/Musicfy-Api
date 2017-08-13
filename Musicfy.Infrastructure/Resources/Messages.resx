@@ -147,8 +147,17 @@
   <data name="InvalidPaginationInput" xml:space="preserve">
     <value>Invalid pagination input</value>
   </data>
+  <data name="InvalidSongCategoryId" xml:space="preserve">
+    <value>Invalid song category id</value>
+  </data>
   <data name="PasswordRequired" xml:space="preserve">
     <value>Password is required</value>
+  </data>
+  <data name="SongCategoryNameAlreadyExists" xml:space="preserve">
+    <value>Song category name already exists</value>
+  </data>
+  <data name="SongCategoryNameRequired" xml:space="preserve">
+    <value>Song category name is required</value>
   </data>
   <data name="Unauthorized" xml:space="preserve">
     <value>Action requires authorization</value>

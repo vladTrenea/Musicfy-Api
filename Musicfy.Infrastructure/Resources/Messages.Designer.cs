@@ -151,11 +151,38 @@ namespace Musicfy.Infrastructure.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Invalid song category id.
+        /// </summary>
+        public static string InvalidSongCategoryId {
+            get {
+                return ResourceManager.GetString("InvalidSongCategoryId", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Password is required.
         /// </summary>
         public static string PasswordRequired {
             get {
                 return ResourceManager.GetString("PasswordRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Song category name already exists.
+        /// </summary>
+        public static string SongCategoryNameAlreadyExists {
+            get {
+                return ResourceManager.GetString("SongCategoryNameAlreadyExists", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Song category name is required.
+        /// </summary>
+        public static string SongCategoryNameRequired {
+            get {
+                return ResourceManager.GetString("SongCategoryNameRequired", resourceCulture);
             }
         }
         

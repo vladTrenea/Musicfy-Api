@@ -18,5 +18,24 @@ namespace Musicfy.Bll.Mappers
                 Name = songCategory.Name
             };
         }
+
+        public static SongCategory ToSongCategory(SongCategoryModel songCategoryModel)
+        {
+            if (songCategoryModel == null)
+            {
+                return null;
+            }
+
+            return new SongCategory
+            {
+                Id = songCategoryModel.Id,
+                Name = songCategoryModel.Name
+            };
+        }
+
+        public static void RefreshSongCategory(SongCategory songCategory, SongCategoryModel songCategoryModel)
+        {
+            songCategory.Name = songCategoryModel.Name;
+        }
     }
 }

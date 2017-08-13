@@ -29,5 +29,42 @@ namespace Musicfy.Dal.Repositories
                 .Results
                 .FirstOrDefault();
         }
+
+        public SongCategory GetByName(string name)
+        {
+            return _graphClient.Cypher
+                .Match("(songCategory:SongCategory)")
+                .Where((SongCategory songCategory) => songCategory.Name == name)
+                .Return(songCategory => songCategory.As<SongCategory>())
+                .Results
+                .FirstOrDefault();
+        }
+
+        public void Add(SongCategory songCategory)
+        {
+            _graphClient.Cypher
+                .Create("(songCategory:SongCategory {newSongCategory})")
+                .WithParam("newSongCategory", songCategory)
+                .ExecuteWithoutResults();
+        }
+
+        public void Update(SongCategory updatedSongCategory)
+        {
+            _graphClient.Cypher
+                .Match("(songCategory:SongCategory)")
+                .Where((SongCategory songCategory) => songCategory.Id == updatedSongCategory.Id)
+                .Set("songCategory.name = {newName}")
+                .WithParam("newName", updatedSongCategory.Name)
+                .ExecuteWithoutResults();
+        }
+
+        public void Delete(string id)
+        {
+            _graphClient.Cypher
+                .Match("(songCategory:SongCategory)")
+                .Where((SongCategory songCategory) => songCategory.Id == id)
+                .Delete("songCategory")
+                .ExecuteWithoutResults();
+        }
     }
 }

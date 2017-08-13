@@ -20,5 +20,33 @@ namespace MusicfyApi.Controllers
         {
             return _songCategoryService.GetAll();
         }
+
+        [HttpGet]
+        [Route("api/songs/categories/{id}")]
+        public SongCategoryModel Get([FromUri] string id)
+        {
+            return _songCategoryService.GetById(id);
+        }
+
+        [HttpPost]
+        [Route("api/songs/categories")]
+        public void Post([FromBody] SongCategoryModel songCategoryModel)
+        {
+            _songCategoryService.Add(songCategoryModel);
+        }
+
+        [HttpPut]
+        [Route("api/songs/categories/{id}")]
+        public void Put([FromUri] string id, [FromBody] SongCategoryModel songCategoryModel)
+        {
+            _songCategoryService.Update(id, songCategoryModel);
+        }
+
+        [HttpDelete]
+        [Route("api/songs/categories/{id}")]
+        public void Delete([FromUri] string id)
+        {
+            _songCategoryService.Delete(id);
+        }
     }
 }
