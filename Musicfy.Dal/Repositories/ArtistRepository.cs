@@ -3,7 +3,6 @@ using System.Linq;
 using Musicfy.Dal.Contracts;
 using Musicfy.Dal.Entities;
 using Neo4jClient;
-using Neo4jClient.Cypher;
 
 namespace Musicfy.Dal.Repositories
 {
