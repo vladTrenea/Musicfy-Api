@@ -11,6 +11,8 @@ namespace Musicfy.Dal.Contracts
 
         IEnumerable<Artist> GetPaginated(int pageNumber, int count);
 
+        int GetTotalCount();
+
         void Add(Artist artist);
 
         void Update(Artist artist);

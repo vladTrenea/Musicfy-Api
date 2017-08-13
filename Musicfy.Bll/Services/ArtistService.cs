@@ -36,12 +36,13 @@ namespace Musicfy.Bll.Services
                 throw new ValidationException(Messages.InvalidPaginationInput);
             }
 
+            var totalCount = _artistRepository.GetTotalCount();
             var artists = _artistRepository.GetPaginated(pageNumber, count);
             var paginationModel = new PaginationModel<ArtistModel>()
             {
                 Page = pageNumber,
                 Items = artists.Select(ArtistMapper.ToArtistModel),
-                TotalPages = 1
+                TotalPages = totalCount % count == 0 ? (totalCount / count) : (totalCount/count) + 1
             };
 
             return paginationModel;

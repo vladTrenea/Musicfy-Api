@@ -3,6 +3,7 @@ using System.Linq;
 using Musicfy.Dal.Contracts;
 using Musicfy.Dal.Entities;
 using Neo4jClient;
+using Neo4jClient.Cypher;
 
 namespace Musicfy.Dal.Repositories
 {
@@ -34,12 +35,23 @@ namespace Musicfy.Dal.Repositories
 
         public IEnumerable<Artist> GetPaginated(int pageNumber, int count)
         {
-            return _graphClient.Cypher.Match("(artist:Artist)")
-                //                    .Skip((pageNumber - 1) * count)
-                //                    .Limit(count)
-                //                    .OrderBy("name")
+            return _graphClient.Cypher
+                .Match("(artist:Artist)")
+                .With("artist")
+                .OrderBy("artist.name")
+                .Skip((pageNumber - 1)*count)
+                .Limit(count)
                 .Return(artist => artist.As<Artist>())
                 .Results;
+        }
+
+        public int GetTotalCount()
+        {
+            return _graphClient.Cypher
+                .Match("(artist:Artist)")
+                .Return(artist => artist.As<Artist>())
+                .Results
+                .Count();
         }
 
         public void Add(Artist artist)
@@ -57,7 +69,12 @@ namespace Musicfy.Dal.Repositories
                 .Where((Artist artist) => artist.Id == updatedArtist.Id)
                 .Set("artist = {updatedArtist}")
                 .WithParam("updatedArtist",
-                    new Artist {Id = updatedArtist.Id, Name = updatedArtist.Name, Description = updatedArtist.Description})
+                    new Artist
+                    {
+                        Id = updatedArtist.Id,
+                        Name = updatedArtist.Name,
+                        Description = updatedArtist.Description
+                    })
                 .ExecuteWithoutResults();
         }
 
