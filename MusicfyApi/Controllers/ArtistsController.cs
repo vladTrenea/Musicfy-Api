@@ -31,5 +31,17 @@ namespace MusicfyApi.Controllers
         {
             _artistService.Add(artist);
         }
+
+        [HttpPut]
+        public void Put([FromUri] string id, [FromBody] ArtistModel artist)
+        {
+            _artistService.Update(id, artist);
+        }
+
+        [HttpDelete]
+        public void Delete([FromUri] string id)
+        {
+            _artistService.Delete(id);
+        }
     }
 }

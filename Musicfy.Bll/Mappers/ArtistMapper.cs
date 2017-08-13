@@ -37,6 +37,12 @@ namespace Musicfy.Bll.Mappers
             };
 
             return artist;
-        } 
+        }
+
+        public static void RefreshArtist(Artist artist, ArtistModel artistModel)
+        {
+            artist.Name = artistModel.Name;
+            artist.Description = artistModel.Description;
+        }
     }
 }

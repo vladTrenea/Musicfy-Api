@@ -9,5 +9,9 @@ namespace Musicfy.Bll.Contracts
         PaginationModel<ArtistModel> GetPaginated(int pageNumber, int count);
 
         void Add(ArtistModel artistModel);
+
+        void Update(string id, ArtistModel artistModel);
+
+        void Delete(string id);
     }
 }

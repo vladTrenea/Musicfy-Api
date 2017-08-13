@@ -12,5 +12,9 @@ namespace Musicfy.Dal.Contracts
         IEnumerable<Artist> GetPaginated(int pageNumber, int count);
 
         void Add(Artist artist);
+
+        void Update(Artist artist);
+
+        void Delete(string id);
     }
 }

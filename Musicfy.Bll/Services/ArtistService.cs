@@ -70,5 +70,44 @@ namespace Musicfy.Bll.Services
 
             _artistRepository.Add(artist);
         }
+
+        public void Update(string id, ArtistModel artistModel)
+        {
+            if (string.IsNullOrEmpty(artistModel.Name))
+            {
+                throw new ValidationException(Messages.ArtistNameRequired);
+            }
+
+            if (string.IsNullOrEmpty(artistModel.Description))
+            {
+                throw new ValidationException(Messages.ArtistDescriptionRequired);
+            }
+
+            var artist = _artistRepository.GetById(id);
+            if (artist == null)
+            {
+                throw new NotFoundException(Messages.InvalidArtistId);
+            }
+
+            var artistByName = _artistRepository.GetByName(artist.Name);
+            if (artistByName != null && artistByName.Id != id)
+            {
+                throw new ConflictException(Messages.ArtistNameAlreadyExists);
+            }
+
+            ArtistMapper.RefreshArtist(artist, artistModel);
+            _artistRepository.Update(artist);
+        }
+
+        public void Delete(string id)
+        {
+            var artist = _artistRepository.GetById(id);
+            if (artist == null)
+            {
+                throw new NotFoundException(Messages.InvalidArtistId);
+            }
+
+            _artistRepository.Delete(id);
+        }
     }
 }
