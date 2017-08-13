@@ -55,6 +55,7 @@
     <Compile Include="Entities\Artist.cs" />
     <Compile Include="Entities\Instrument.cs" />
     <Compile Include="Entities\SongCategory.cs" />
+    <Compile Include="Entities\Tag.cs" />
     <Compile Include="Entities\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\ArtistRepository.cs" />
