@@ -66,14 +66,9 @@ namespace Musicfy.Dal.Repositories
             _graphClient.Cypher
                 .Match("(artist:Artist)")
                 .Where((Artist artist) => artist.Id == updatedArtist.Id)
-                .Set("artist = {updatedArtist}")
-                .WithParam("updatedArtist",
-                    new Artist
-                    {
-                        Id = updatedArtist.Id,
-                        Name = updatedArtist.Name,
-                        Description = updatedArtist.Description
-                    })
+                .Set("artist.name = {newName}, artist.description = {newDescription}")
+                .WithParam("newName", updatedArtist.Name)
+                .WithParam("newDescription", updatedArtist.Description)
                 .ExecuteWithoutResults();
         }
 

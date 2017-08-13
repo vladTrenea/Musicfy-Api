@@ -126,11 +126,20 @@
   <data name="ArtistNameRequired" xml:space="preserve">
     <value>Artist name is required</value>
   </data>
+  <data name="InstrumentNameAlreadyExists" xml:space="preserve">
+    <value>Instrument name already exists</value>
+  </data>
+  <data name="InstrumentNameRequired" xml:space="preserve">
+    <value>Instrument name is required</value>
+  </data>
   <data name="InternalServerError" xml:space="preserve">
     <value>Internal Server Error</value>
   </data>
   <data name="InvalidArtistId" xml:space="preserve">
     <value>Invalid artist id</value>
+  </data>
+  <data name="InvalidInstrumentId" xml:space="preserve">
+    <value>Invalid instrument id</value>
   </data>
   <data name="InvalidLogin" xml:space="preserve">
     <value>Invalid username or password</value>

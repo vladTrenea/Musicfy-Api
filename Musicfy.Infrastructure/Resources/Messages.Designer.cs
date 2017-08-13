@@ -88,6 +88,24 @@ namespace Musicfy.Infrastructure.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Instrument name already exists.
+        /// </summary>
+        public static string InstrumentNameAlreadyExists {
+            get {
+                return ResourceManager.GetString("InstrumentNameAlreadyExists", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Instrument name is required.
+        /// </summary>
+        public static string InstrumentNameRequired {
+            get {
+                return ResourceManager.GetString("InstrumentNameRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Internal Server Error.
         /// </summary>
         public static string InternalServerError {
@@ -102,6 +120,15 @@ namespace Musicfy.Infrastructure.Resources {
         public static string InvalidArtistId {
             get {
                 return ResourceManager.GetString("InvalidArtistId", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Invalid instrument id.
+        /// </summary>
+        public static string InvalidInstrumentId {
+            get {
+                return ResourceManager.GetString("InvalidInstrumentId", resourceCulture);
             }
         }
         

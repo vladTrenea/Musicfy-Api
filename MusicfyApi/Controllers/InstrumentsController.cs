@@ -19,5 +19,29 @@ namespace MusicfyApi.Controllers
         {
             return _instrumentService.GetAll();
         }
+
+        [HttpGet]
+        public InstrumentModel Get([FromUri] string id)
+        {
+            return _instrumentService.GetById(id);
+        }
+
+        [HttpPost]
+        public void Post([FromBody] InstrumentModel instrumentModel)
+        {
+            _instrumentService.Add(instrumentModel);
+        }
+
+        [HttpPut]
+        public void Put([FromUri] string id, [FromBody] InstrumentModel instrumentModel)
+        {
+            _instrumentService.Update(id, instrumentModel);
+        }
+
+        [HttpDelete]
+        public void Delete([FromUri] string id)
+        {
+            _instrumentService.Delete(id);
+        }
     }
 }

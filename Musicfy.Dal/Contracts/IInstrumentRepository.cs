@@ -8,5 +8,13 @@ namespace Musicfy.Dal.Contracts
         IEnumerable<Instrument> GetAll();
 
         Instrument GetById(string id);
+
+        Instrument GetByName(string name);
+
+        void Add(Instrument instrument);
+
+        void Update(Instrument instrument);
+
+        void Delete(string id);
     }
 }

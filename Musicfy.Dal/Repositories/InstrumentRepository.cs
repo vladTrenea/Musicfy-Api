@@ -29,5 +29,42 @@ namespace Musicfy.Dal.Repositories
                 .Results
                 .FirstOrDefault();
         }
+
+        public Instrument GetByName(string name)
+        {
+            return _graphClient.Cypher
+                .Match("(instrument:Instrument)")
+                .Where((Instrument instrument) => instrument.Name == name)
+                .Return(instrument => instrument.As<Instrument>())
+                .Results
+                .FirstOrDefault();
+        }
+
+        public void Add(Instrument instrument)
+        {
+            _graphClient.Cypher
+                .Create("(instrument:Instrument {newInstrument})")
+                .WithParam("newInstrument", instrument)
+                .ExecuteWithoutResults();
+        }
+
+        public void Update(Instrument updatedInstrument)
+        {
+            _graphClient.Cypher
+                .Match("(instrument:Instrument)")
+                .Where((Instrument instrument) => instrument.Id == updatedInstrument.Id)
+                .Set("instrument.name = {newName}")
+                .WithParam("newName", updatedInstrument.Name)
+                .ExecuteWithoutResults();
+        }
+
+        public void Delete(string id)
+        {
+            _graphClient.Cypher
+                .Match("(instrument:Instrument)")
+                .Where((Instrument instrument) => instrument.Id == id)
+                .Delete("instrument")
+                .ExecuteWithoutResults();
+        }
     }
 }

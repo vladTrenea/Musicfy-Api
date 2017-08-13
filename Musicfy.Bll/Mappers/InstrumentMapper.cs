@@ -18,5 +18,24 @@ namespace Musicfy.Bll.Mappers
                 Name = instrument.Name
             };
         }
+
+        public static Instrument ToInstrument(InstrumentModel instrumentModel)
+        {
+            if (instrumentModel == null)
+            {
+                return null;
+            }
+
+            return new Instrument
+            {
+                Id = instrumentModel.Id,
+                Name = instrumentModel.Name
+            };
+        }
+
+        public static void RefreshInstrument(Instrument instrument, InstrumentModel instrumentModel)
+        {
+            instrument.Name = instrumentModel.Name;
+        }
     }
 }
