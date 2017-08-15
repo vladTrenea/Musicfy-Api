@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using Musicfy.Bll.Contracts;
 using Musicfy.Bll.Mappers;
 using Musicfy.Bll.Models;
@@ -16,6 +17,13 @@ namespace Musicfy.Bll.Services
         public ArtistService(IArtistRepository artistRepository)
         {
             _artistRepository = artistRepository;
+        }
+
+        public IEnumerable<ArtistModel> GetAll()
+        {
+            var artists = _artistRepository.GetAll();
+
+            return artists.Select(ArtistMapper.ToArtistModel);
         }
 
         public ArtistModel GetById(string id)

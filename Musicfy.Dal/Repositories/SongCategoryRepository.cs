@@ -16,6 +16,8 @@ namespace Musicfy.Dal.Repositories
         {
             return _graphClient.Cypher
                 .Match("(songCategory:SongCategory)")
+                .With("songCategory")
+                .OrderBy("songCategory.name")
                 .Return(songCategory => songCategory.As<SongCategory>())
                 .Results;
         }
@@ -60,6 +62,12 @@ namespace Musicfy.Dal.Repositories
 
         public void Delete(string id)
         {
+            _graphClient.Cypher
+                .OptionalMatch("(songCategory:SongCategory)-[r]-()")
+                .Where((SongCategory songCategory) => songCategory.Id == id)
+                .Delete("r, songCategory")
+                .ExecuteWithoutResults();
+
             _graphClient.Cypher
                 .Match("(songCategory:SongCategory)")
                 .Where((SongCategory songCategory) => songCategory.Id == id)

@@ -16,6 +16,8 @@ namespace Musicfy.Dal.Repositories
         {
             return _graphClient.Cypher
                 .Match("(tag:Tag)")
+                .With("tag")
+                .OrderBy("tag.name")
                 .Return(tag => tag.As<Tag>())
                 .Results;
         }
@@ -64,6 +66,12 @@ namespace Musicfy.Dal.Repositories
                 .OptionalMatch("(tag:Tag)-[r]-()")
                 .Where((Tag tag) => tag.Id == id)
                 .Delete("r, tag")
+                .ExecuteWithoutResults();
+
+            _graphClient.Cypher
+                .Match("(tag:Tag)")
+                .Where((Tag tag) => tag.Id == id)
+                .Delete("tag")
                 .ExecuteWithoutResults();
         }
     }

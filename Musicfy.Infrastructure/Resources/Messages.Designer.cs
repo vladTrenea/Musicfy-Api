@@ -160,11 +160,47 @@ namespace Musicfy.Infrastructure.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Invalid song id.
+        /// </summary>
+        public static string InvalidSongId {
+            get {
+                return ResourceManager.GetString("InvalidSongId", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Invalid tag id.
+        /// </summary>
+        public static string InvalidTagId {
+            get {
+                return ResourceManager.GetString("InvalidTagId", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Password is required.
         /// </summary>
         public static string PasswordRequired {
             get {
                 return ResourceManager.GetString("PasswordRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Song artist is required.
+        /// </summary>
+        public static string SongArtistIdRequired {
+            get {
+                return ResourceManager.GetString("SongArtistIdRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Song category is required.
+        /// </summary>
+        public static string SongCategoryIdRequired {
+            get {
+                return ResourceManager.GetString("SongCategoryIdRequired", resourceCulture);
             }
         }
         
@@ -183,6 +219,42 @@ namespace Musicfy.Infrastructure.Resources {
         public static string SongCategoryNameRequired {
             get {
                 return ResourceManager.GetString("SongCategoryNameRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Song name is required.
+        /// </summary>
+        public static string SongNameRequired {
+            get {
+                return ResourceManager.GetString("SongNameRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Song url is required.
+        /// </summary>
+        public static string SongUrlRequired {
+            get {
+                return ResourceManager.GetString("SongUrlRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Tag name already exists.
+        /// </summary>
+        public static string TagNameAlreadyExists {
+            get {
+                return ResourceManager.GetString("TagNameAlreadyExists", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Tag name is required.
+        /// </summary>
+        public static string TagNameRequired {
+            get {
+                return ResourceManager.GetString("TagNameRequired", resourceCulture);
             }
         }
         

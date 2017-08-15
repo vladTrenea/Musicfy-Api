@@ -4,7 +4,6 @@ using Musicfy.Bll.Contracts;
 using Musicfy.Bll.Mappers;
 using Musicfy.Bll.Models;
 using Musicfy.Dal.Contracts;
-using Musicfy.Dal.Entities;
 using Musicfy.Infrastructure.Exceptions;
 using Musicfy.Infrastructure.Resources;
 using Musicfy.Infrastructure.Utils;

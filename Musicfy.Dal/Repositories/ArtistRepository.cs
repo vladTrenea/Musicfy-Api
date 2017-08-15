@@ -12,6 +12,16 @@ namespace Musicfy.Dal.Repositories
         {
         }
 
+        public IEnumerable<Artist> GetAll()
+        {
+            return _graphClient.Cypher
+                .Match("(artist:Artist)")
+                .With("artist")
+                .OrderBy("artist.name")
+                .Return(artist => artist.As<Artist>())
+                .Results;
+        }
+
         public Artist GetById(string id)
         {
             return _graphClient.Cypher
@@ -74,6 +84,12 @@ namespace Musicfy.Dal.Repositories
 
         public void Delete(string id)
         {
+            _graphClient.Cypher
+                .OptionalMatch("(artist:Artist)-[r]-()")
+                .Where((Artist artist) => artist.Id == id)
+                .Delete("r, artist")
+                .ExecuteWithoutResults();
+
             _graphClient.Cypher
                 .Match("(artist:Artist)")
                 .Where((Artist artist) => artist.Id == id)

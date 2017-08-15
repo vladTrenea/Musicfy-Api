@@ -1,9 +1,11 @@
-﻿using Musicfy.Bll.Models;
+﻿using System.Collections.Generic;
+using Musicfy.Bll.Models;
 
 namespace Musicfy.Bll.Contracts
 {
     public interface IArtistService
     {
+        IEnumerable<ArtistModel> GetAll();
         ArtistModel GetById(string id);
 
         PaginationModel<ArtistModel> GetPaginated(int pageNumber, int count);

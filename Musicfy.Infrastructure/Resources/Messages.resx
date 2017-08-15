@@ -150,14 +150,38 @@
   <data name="InvalidSongCategoryId" xml:space="preserve">
     <value>Invalid song category id</value>
   </data>
+  <data name="InvalidSongId" xml:space="preserve">
+    <value>Invalid song id</value>
+  </data>
+  <data name="InvalidTagId" xml:space="preserve">
+    <value>Invalid tag id</value>
+  </data>
   <data name="PasswordRequired" xml:space="preserve">
     <value>Password is required</value>
+  </data>
+  <data name="SongArtistIdRequired" xml:space="preserve">
+    <value>Song artist is required</value>
+  </data>
+  <data name="SongCategoryIdRequired" xml:space="preserve">
+    <value>Song category is required</value>
   </data>
   <data name="SongCategoryNameAlreadyExists" xml:space="preserve">
     <value>Song category name already exists</value>
   </data>
   <data name="SongCategoryNameRequired" xml:space="preserve">
     <value>Song category name is required</value>
+  </data>
+  <data name="SongNameRequired" xml:space="preserve">
+    <value>Song name is required</value>
+  </data>
+  <data name="SongUrlRequired" xml:space="preserve">
+    <value>Song url is required</value>
+  </data>
+  <data name="TagNameAlreadyExists" xml:space="preserve">
+    <value>Tag name already exists</value>
+  </data>
+  <data name="TagNameRequired" xml:space="preserve">
+    <value>Tag name is required</value>
   </data>
   <data name="Unauthorized" xml:space="preserve">
     <value>Action requires authorization</value>

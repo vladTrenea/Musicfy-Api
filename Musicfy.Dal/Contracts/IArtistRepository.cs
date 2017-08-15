@@ -5,6 +5,7 @@ namespace Musicfy.Dal.Contracts
 {
     public interface IArtistRepository
     {
+        IEnumerable<Artist> GetAll();
         Artist GetById(string id);
 
         Artist GetByName(string name);

@@ -9,9 +9,9 @@ namespace Musicfy.Bll.Contracts
 
         InstrumentModel GetById(string id);
 
-        void Add(InstrumentModel artistModel);
+        void Add(InstrumentModel instrumentModel);
 
-        void Update(string id, InstrumentModel artistModel);
+        void Update(string id, InstrumentModel instrumentModel);
 
         void Delete(string id);
     }

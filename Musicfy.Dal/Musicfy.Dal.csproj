@@ -51,10 +51,14 @@
     <Compile Include="Contracts\IArtistRepository.cs" />
     <Compile Include="Contracts\IInstrumentRepository.cs" />
     <Compile Include="Contracts\ISongCategoryRepository.cs" />
+    <Compile Include="Contracts\ISongRepository.cs" />
+    <Compile Include="Contracts\ITagRepository.cs" />
     <Compile Include="Contracts\IUserRepository.cs" />
+    <Compile Include="DbUtils.cs" />
     <Compile Include="Entities\Artist.cs" />
     <Compile Include="Entities\Instrument.cs" />
     <Compile Include="Entities\SongCategory.cs" />
+    <Compile Include="Entities\Song.cs" />
     <Compile Include="Entities\Tag.cs" />
     <Compile Include="Entities\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -62,6 +66,8 @@
     <Compile Include="Repositories\BaseRepository.cs" />
     <Compile Include="Repositories\InstrumentRepository.cs" />
     <Compile Include="Repositories\SongCategoryRepository.cs" />
+    <Compile Include="Repositories\SongRepository.cs" />
+    <Compile Include="Repositories\TagRepository.cs" />
     <Compile Include="Repositories\UserRepository.cs" />
   </ItemGroup>
   <ItemGroup>
