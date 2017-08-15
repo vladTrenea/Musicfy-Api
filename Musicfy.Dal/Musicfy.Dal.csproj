@@ -59,6 +59,7 @@
     <Compile Include="Entities\Instrument.cs" />
     <Compile Include="Entities\SongCategory.cs" />
     <Compile Include="Entities\Song.cs" />
+    <Compile Include="Dto\SongDetailsDto.cs" />
     <Compile Include="Entities\Tag.cs" />
     <Compile Include="Entities\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

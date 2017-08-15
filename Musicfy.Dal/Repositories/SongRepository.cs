@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Musicfy.Dal.Contracts;
+using Musicfy.Dal.Dto;
 using Musicfy.Dal.Entities;
 using Neo4jClient;
 
@@ -33,7 +34,7 @@ namespace Musicfy.Dal.Repositories
                 .Count();
         }
 
-        public Song GetById(string id)
+        public SongDetailsDto GetById(string id)
         {
             return _graphClient.Cypher
                 .OptionalMatch("(song:Song)-[COMPOSED_BY]->(artist:Artist)")
@@ -41,11 +42,9 @@ namespace Musicfy.Dal.Repositories
                 .OptionalMatch("(song:Song)-[CONTAINS]->(instrument:Instrument)")
                 .OptionalMatch("(song:Song)-[DESCRIBED_BY]->(tag:Tag)")
                 .Where((Song song) => song.Id == id)
-                .Return((song, artist, songCategory, instrument, tag) => new Song
+                .Return((song, artist, songCategory, instrument, tag) => new SongDetailsDto
                 {
-                    Id = song.As<Song>().Id,
-                    Title = song.As<Song>().Title,
-                    Url = song.As<Song>().Url,
+                    Song = song.As<Song>(),
                     Artist = artist.As<Artist>(),
                     SongCategory = songCategory.As<SongCategory>(),
                     Instruments = instrument.CollectAs<Instrument>(),

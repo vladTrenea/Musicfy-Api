@@ -1,8 +1,7 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using Musicfy.Bll.Models;
+using Musicfy.Dal.Dto;
 using Musicfy.Dal.Entities;
-using Musicfy.Infrastructure.Utils;
 
 namespace Musicfy.Bll.Mappers
 {
@@ -59,6 +58,25 @@ namespace Musicfy.Bll.Mappers
             };
 
             return song;
+        }
+
+        public static SongModel ToSongModel(SongDetailsDto songDetails)
+        {
+            if (songDetails == null)
+            {
+                return null;
+            }
+
+            return new SongModel
+            {
+                Id = songDetails.Song.Id,
+                Name = songDetails.Song.Title,
+                Url = songDetails.Song.Url,
+                Artist = ArtistMapper.ToArtistModel(songDetails.Artist),
+                SongCategory = SongCategoryMapper.ToSongCategoryModel(songDetails.SongCategory),
+                Tags = songDetails.Tags.Select(TagMapper.ToTagModel),
+                Instruments = songDetails.Instruments.Select(InstrumentMapper.ToInstrumentModel)
+            };
         }
     }
 }

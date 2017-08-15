@@ -27,9 +27,15 @@ namespace MusicfyApi.Controllers
         }
 
         [HttpPost]
-        public void Post([FromBody] AddSongModel model)
+        public void Post([FromBody] AddUpdateSongModel model)
         {
             _songService.Add(model);
+        }
+
+        [HttpPut]
+        public void Put([FromUri] string id, [FromBody] AddUpdateSongModel model)
+        {
+            _songService.Update(id, model);
         }
 
         [HttpDelete]

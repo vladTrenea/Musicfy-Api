@@ -26,13 +26,15 @@ namespace Musicfy.Bll.Services
 
         public SongModel GetById(string id)
         {
-            var songDetails = _songRepository.GetById(id);
-            if (songDetails == null)
+            var song = _songRepository.GetById(id);
+            if (song == null)
             {
                 throw new NotFoundException(Messages.InvalidSongId);
             }
 
-            return null;
+            var songModel = SongMapper.ToSongModel(song);
+
+            return songModel;
         }
 
         public PaginationModel<SongItemModel> GetPaginated(int pageNumber, int count)
@@ -54,7 +56,7 @@ namespace Musicfy.Bll.Services
             return paginationModel;
         }
 
-        public void Add(AddSongModel addSongModel)
+        public void Add(AddUpdateSongModel addSongModel)
         {
             if (string.IsNullOrEmpty(addSongModel.Name))
             {
@@ -91,6 +93,11 @@ namespace Musicfy.Bll.Services
             var song = SongMapper.ToSong(addSongModel);
             song.Id = SecurityUtils.GenerateEntityId();
             _songRepository.Add(song);
+        }
+
+        public void Update(AddUpdateSongModel model)
+        {
+            throw new System.NotImplementedException();
         }
 
         public void Delete(string id)

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Musicfy.Dal.Dto;
 using Musicfy.Dal.Entities;
 
 namespace Musicfy.Dal.Contracts
@@ -9,7 +10,7 @@ namespace Musicfy.Dal.Contracts
 
         int GetTotalCount();
 
-        Song GetById(string id);
+        SongDetailsDto GetById(string id);
 
         void Add(Song songDetails);
 
