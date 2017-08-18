@@ -12,7 +12,9 @@ namespace Musicfy.Dal.Contracts
 
         SongDetailsDto GetById(string id);
 
-        void Add(Song songDetails);
+        void Add(Song song);
+
+        void Update(Song song);
 
         void Delete(string id);
     }

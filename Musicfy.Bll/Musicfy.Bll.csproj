@@ -55,7 +55,7 @@
     <Compile Include="Mappers\SongCategoryMapper.cs" />
     <Compile Include="Mappers\SongMapper.cs" />
     <Compile Include="Mappers\TagMapper.cs" />
-    <Compile Include="Models\AddSongModel.cs" />
+    <Compile Include="Models\AddUpdateSongModel.cs" />
     <Compile Include="Models\ArtistModel.cs" />
     <Compile Include="Models\ErrorModel.cs" />
     <Compile Include="Models\InstrumentModel.cs" />

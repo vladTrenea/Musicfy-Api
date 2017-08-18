@@ -3,7 +3,7 @@ using Newtonsoft.Json;
 
 namespace Musicfy.Bll.Models
 {
-    public class AddSongModel
+    public class AddUpdateSongModel
     {
         [JsonProperty("id")]
         public string Id { get; set; }

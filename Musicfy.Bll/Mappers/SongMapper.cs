@@ -40,7 +40,7 @@ namespace Musicfy.Bll.Mappers
             };
         }
 
-        public static Song ToSong(AddSongModel addSongModel)
+        public static Song ToSong(AddUpdateSongModel addSongModel)
         {
             if (addSongModel == null)
             {
@@ -49,6 +49,7 @@ namespace Musicfy.Bll.Mappers
 
             var song = new Song
             {
+                Id = addSongModel.Id,
                 Title = addSongModel.Name,
                 Url = addSongModel.Url,
                 Artist = new Artist {Id = addSongModel.ArtistId},

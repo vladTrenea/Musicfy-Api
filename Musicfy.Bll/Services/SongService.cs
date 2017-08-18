@@ -95,9 +95,42 @@ namespace Musicfy.Bll.Services
             _songRepository.Add(song);
         }
 
-        public void Update(AddUpdateSongModel model)
+        public void Update(string id, AddUpdateSongModel addSongModel)
         {
-            throw new System.NotImplementedException();
+            if (string.IsNullOrEmpty(addSongModel.Name))
+            {
+                throw new ValidationException(Messages.SongNameRequired);
+            }
+
+            if (string.IsNullOrEmpty(addSongModel.Url))
+            {
+                throw new ValidationException(Messages.SongUrlRequired);
+            }
+
+            if (string.IsNullOrEmpty(addSongModel.SongCategoryId))
+            {
+                throw new ValidationException(Messages.SongCategoryIdRequired);
+            }
+
+            if (string.IsNullOrEmpty(addSongModel.ArtistId))
+            {
+                throw new ValidationException(Messages.SongArtistIdRequired);
+            }
+
+            var songCategory = _songCategoryRepository.GetById(addSongModel.SongCategoryId);
+            if (songCategory == null)
+            {
+                throw new NotFoundException(Messages.InvalidSongCategoryId);
+            }
+
+            var artist = _artistRepository.GetById(addSongModel.ArtistId);
+            if (artist == null)
+            {
+                throw new NotFoundException(Messages.InvalidArtistId);
+            }
+
+            var song = SongMapper.ToSong(addSongModel);
+            _songRepository.Update(song);
         }
 
         public void Delete(string id)

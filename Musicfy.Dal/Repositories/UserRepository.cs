@@ -1,7 +1,6 @@
 ﻿using System.Linq;
 using Musicfy.Dal.Contracts;
 using Musicfy.Dal.Entities;
-using Musicfy.Infrastructure.Utils;
 using Neo4jClient;
 
 namespace Musicfy.Dal.Repositories

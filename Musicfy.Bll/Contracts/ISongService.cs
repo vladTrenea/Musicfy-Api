@@ -10,7 +10,7 @@ namespace Musicfy.Bll.Contracts
 
         void Add(AddUpdateSongModel model);
 
-        void Update(AddUpdateSongModel model);
+        void Update(string id, AddUpdateSongModel model);
 
         void Delete(string id);
     }

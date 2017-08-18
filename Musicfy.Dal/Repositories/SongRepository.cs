@@ -38,10 +38,10 @@ namespace Musicfy.Dal.Repositories
         {
             return _graphClient.Cypher
                 .OptionalMatch("(song:Song)-[COMPOSED_BY]->(artist:Artist)")
+                .Where((Song song) => song.Id == id)
                 .OptionalMatch("(song:Song)-[CATEGORIZED_BY]->(songCategory:SongCategory)")
                 .OptionalMatch("(song:Song)-[CONTAINS]->(instrument:Instrument)")
                 .OptionalMatch("(song:Song)-[DESCRIBED_BY]->(tag:Tag)")
-                .Where((Song song) => song.Id == id)
                 .Return((song, artist, songCategory, instrument, tag) => new SongDetailsDto
                 {
                     Song = song.As<Song>(),
@@ -67,39 +67,18 @@ namespace Musicfy.Dal.Repositories
                 })
                 .ExecuteWithoutResults();
 
+            AddSongRelationships(newSong);
+        }
+
+        public void Update(Song songToUpdate)
+        {
             _graphClient.Cypher
-                .Match("(song:Song)", "(artist:Artist)")
-                .Where((Artist artist) => artist.Id == newSong.Artist.Id)
-                .AndWhere((Song song) => song.Id == newSong.Id)
-                .CreateUnique("(song)-[:COMPOSED_BY]->(artist)")
+                .OptionalMatch("(song:Song)-[r]->()")
+                .Where((Song song) => song.Id == songToUpdate.Id)
+                .Delete("r")
                 .ExecuteWithoutResults();
 
-            _graphClient.Cypher
-                .Match("(song:Song)", "(songCategory:SongCategory)")
-                .Where((SongCategory songCategory) => songCategory.Id == newSong.SongCategory.Id)
-                .AndWhere((Song song) => song.Id == newSong.Id)
-                .CreateUnique("(song)-[:CATEGORIZED_BY]->(songCategory)")
-                .ExecuteWithoutResults();
-
-            foreach (var songInstrument in newSong.Instruments)
-            {
-                _graphClient.Cypher
-                    .Match("(song:Song)", "(instrument:Instrument)")
-                    .Where((Instrument instrument) => instrument.Id == songInstrument.Id)
-                    .AndWhere((Song song) => song.Id == newSong.Id)
-                    .CreateUnique("(song)-[:CONTAINS]->(instrument)")
-                    .ExecuteWithoutResults();
-            }
-
-            foreach (var songTag in newSong.Tags)
-            {
-                _graphClient.Cypher
-                    .Match("(song:Song)", "(tag:Tag)")
-                    .Where((Tag tag) => tag.Id == songTag.Id)
-                    .AndWhere((Song song) => song.Id == newSong.Id)
-                    .CreateUnique("(song)-[:DESCRIBED_BY]->(tag)")
-                    .ExecuteWithoutResults();
-            }
+            AddSongRelationships(songToUpdate);
         }
 
         public void Delete(string id)
@@ -109,6 +88,49 @@ namespace Musicfy.Dal.Repositories
                 .Where((Song song) => song.Id == id)
                 .Delete("r, song")
                 .ExecuteWithoutResults();
+
+            _graphClient.Cypher
+                .Match("(song:Song)")
+                .Where((Song song) => song.Id == id)
+                .Delete("song")
+                .ExecuteWithoutResults();
+        }
+
+        private void AddSongRelationships(Song songEntity)
+        {
+            _graphClient.Cypher
+                .Match("(song:Song)", "(artist:Artist)")
+                .Where((Artist artist) => artist.Id == songEntity.Artist.Id)
+                .AndWhere((Song song) => song.Id == songEntity.Id)
+                .CreateUnique("(song)-[:COMPOSED_BY]->(artist)")
+                .ExecuteWithoutResults();
+
+            _graphClient.Cypher
+                .Match("(song:Song)", "(songCategory:SongCategory)")
+                .Where((SongCategory songCategory) => songCategory.Id == songEntity.SongCategory.Id)
+                .AndWhere((Song song) => song.Id == songEntity.Id)
+                .CreateUnique("(song)-[:CATEGORIZED_BY]->(songCategory)")
+                .ExecuteWithoutResults();
+
+            foreach (var songInstrument in songEntity.Instruments)
+            {
+                _graphClient.Cypher
+                    .Match("(song:Song)", "(instrument:Instrument)")
+                    .Where((Instrument instrument) => instrument.Id == songInstrument.Id)
+                    .AndWhere((Song song) => song.Id == songEntity.Id)
+                    .CreateUnique("(song)-[:CONTAINS]->(instrument)")
+                    .ExecuteWithoutResults();
+            }
+
+            foreach (var songTag in songEntity.Tags)
+            {
+                _graphClient.Cypher
+                    .Match("(song:Song)", "(tag:Tag)")
+                    .Where((Tag tag) => tag.Id == songTag.Id)
+                    .AndWhere((Song song) => song.Id == songEntity.Id)
+                    .CreateUnique("(song)-[:DESCRIBED_BY]->(tag)")
+                    .ExecuteWithoutResults();
+            }
         }
     }
 }
