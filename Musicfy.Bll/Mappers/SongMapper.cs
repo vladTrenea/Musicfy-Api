@@ -75,8 +75,9 @@ namespace Musicfy.Bll.Mappers
                 Url = songDetails.Song.Url,
                 Artist = ArtistMapper.ToArtistModel(songDetails.Artist),
                 SongCategory = SongCategoryMapper.ToSongCategoryModel(songDetails.SongCategory),
-                Tags = songDetails.Tags.Select(TagMapper.ToTagModel),
-                Instruments = songDetails.Instruments.Select(InstrumentMapper.ToInstrumentModel)
+                //TODO: Have a look over here
+                Tags = songDetails.Tags.GroupBy(t => t.Id).Select(grp => TagMapper.ToTagModel(grp.FirstOrDefault())),
+                Instruments = songDetails.Instruments.GroupBy(i => i.Id).Select(grp => InstrumentMapper.ToInstrumentModel(grp.FirstOrDefault()))
             };
         }
     }

@@ -84,7 +84,13 @@ namespace Musicfy.Dal.Repositories
             using (var transaction = transactionClient.BeginTransaction())
             {
                 _graphClient.Cypher
-                    .OptionalMatch("(song:Song)-[r]->()")
+                    .OptionalMatch("(song:Song)-[r]-(instrument:Instrument)")
+                    .Where((Song song) => song.Id == songToUpdate.Id)
+                    .Delete("r")
+                    .ExecuteWithoutResults();
+
+                _graphClient.Cypher
+                    .OptionalMatch("(song:Song)-[r]-(tag:Tag)")
                     .Where((Song song) => song.Id == songToUpdate.Id)
                     .Delete("r")
                     .ExecuteWithoutResults();
@@ -124,13 +130,6 @@ namespace Musicfy.Dal.Repositories
                 .CreateUnique("(song)-[:COMPOSED_BY]->(artist)")
                 .ExecuteWithoutResults();
 
-            _graphClient.Cypher
-                .Match("(song:Song)", "(songCategory:SongCategory)")
-                .Where((SongCategory songCategory) => songCategory.Id == songEntity.SongCategory.Id)
-                .AndWhere((Song song) => song.Id == songEntity.Id)
-                .CreateUnique("(song)-[:CATEGORIZED_BY]->(songCategory)")
-                .ExecuteWithoutResults();
-
             foreach (var songInstrument in songEntity.Instruments)
             {
                 _graphClient.Cypher
@@ -141,12 +140,19 @@ namespace Musicfy.Dal.Repositories
                     .ExecuteWithoutResults();
             }
 
+            _graphClient.Cypher
+                .Match("(song:Song)", "(songCategory:SongCategory)")
+                .Where((SongCategory songCategory) => songCategory.Id == songEntity.SongCategory.Id)
+                .AndWhere((Song song) => song.Id == songEntity.Id)
+                .CreateUnique("(song)-[:CATEGORIZED_BY]->(songCategory)")
+                .ExecuteWithoutResults();
+
             foreach (var songTag in songEntity.Tags)
             {
                 _graphClient.Cypher
                     .Match("(song:Song)", "(tag:Tag)")
-                    .Where((Tag tag) => tag.Id == songTag.Id)
-                    .AndWhere((Song song) => song.Id == songEntity.Id)
+                    .Where((Song song) => song.Id == songEntity.Id)
+                    .AndWhere((Tag tag) => tag.Id == songTag.Id)
                     .CreateUnique("(song)-[:DESCRIBED_BY]->(tag)")
                     .ExecuteWithoutResults();
             }
