@@ -4,6 +4,7 @@ using Musicfy.Dal.Contracts;
 using Musicfy.Dal.Dto;
 using Musicfy.Dal.Entities;
 using Neo4jClient;
+using Neo4jClient.Transactions;
 
 namespace Musicfy.Dal.Repositories
 {
@@ -56,44 +57,62 @@ namespace Musicfy.Dal.Repositories
 
         public void Add(Song newSong)
         {
-            _graphClient.Cypher
-                .Merge("(song:Song { Id: {id} })")
-                .OnCreate()
-                .Set("song = {newSong}")
-                .WithParams(new
-                {
-                    id = newSong.Id,
-                    newSong
-                })
-                .ExecuteWithoutResults();
+            var transactionClient = (ITransactionalGraphClient) _graphClient;
 
-            AddSongRelationships(newSong);
+            using (var transaction = transactionClient.BeginTransaction())
+            {
+                _graphClient.Cypher
+                    .Merge("(song:Song { Id: {id} })")
+                    .OnCreate()
+                    .Set("song = {newSong}")
+                    .WithParams(new
+                    {
+                        id = newSong.Id,
+                        newSong
+                    })
+                    .ExecuteWithoutResults();
+
+                AddSongRelationships(newSong);
+                transaction.Commit();
+            }
         }
 
         public void Update(Song songToUpdate)
         {
-            _graphClient.Cypher
-                .OptionalMatch("(song:Song)-[r]->()")
-                .Where((Song song) => song.Id == songToUpdate.Id)
-                .Delete("r")
-                .ExecuteWithoutResults();
+            var transactionClient = (ITransactionalGraphClient) _graphClient;
 
-            AddSongRelationships(songToUpdate);
+            using (var transaction = transactionClient.BeginTransaction())
+            {
+                _graphClient.Cypher
+                    .OptionalMatch("(song:Song)-[r]->()")
+                    .Where((Song song) => song.Id == songToUpdate.Id)
+                    .Delete("r")
+                    .ExecuteWithoutResults();
+
+                AddSongRelationships(songToUpdate);
+                transaction.Commit();
+            }
         }
 
         public void Delete(string id)
         {
-            _graphClient.Cypher
-                .OptionalMatch("(song:Song)-[r]-()")
-                .Where((Song song) => song.Id == id)
-                .Delete("r, song")
-                .ExecuteWithoutResults();
+            var transactionClient = (ITransactionalGraphClient) _graphClient;
 
-            _graphClient.Cypher
-                .Match("(song:Song)")
-                .Where((Song song) => song.Id == id)
-                .Delete("song")
-                .ExecuteWithoutResults();
+            using (var transaction = transactionClient.BeginTransaction())
+            {
+                _graphClient.Cypher
+                    .OptionalMatch("(song:Song)-[r]-()")
+                    .Where((Song song) => song.Id == id)
+                    .Delete("r, song")
+                    .ExecuteWithoutResults();
+
+                _graphClient.Cypher
+                    .Match("(song:Song)")
+                    .Where((Song song) => song.Id == id)
+                    .Delete("song")
+                    .ExecuteWithoutResults();
+                transaction.Commit();
+            }
         }
 
         private void AddSongRelationships(Song songEntity)

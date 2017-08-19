@@ -3,6 +3,7 @@ using System.Linq;
 using Musicfy.Dal.Contracts;
 using Musicfy.Dal.Entities;
 using Neo4jClient;
+using Neo4jClient.Transactions;
 
 namespace Musicfy.Dal.Repositories
 {
@@ -84,17 +85,24 @@ namespace Musicfy.Dal.Repositories
 
         public void Delete(string id)
         {
-            _graphClient.Cypher
-                .OptionalMatch("(artist:Artist)-[r]-()")
-                .Where((Artist artist) => artist.Id == id)
-                .Delete("r, artist")
-                .ExecuteWithoutResults();
+            var transactionClient = (ITransactionalGraphClient) _graphClient;
 
-            _graphClient.Cypher
-                .Match("(artist:Artist)")
-                .Where((Artist artist) => artist.Id == id)
-                .Delete("artist")
-                .ExecuteWithoutResults();
+            using (var transaction = transactionClient.BeginTransaction())
+            {
+                _graphClient.Cypher
+                    .OptionalMatch("(artist:Artist)-[r]-()")
+                    .Where((Artist artist) => artist.Id == id)
+                    .Delete("r, artist")
+                    .ExecuteWithoutResults();
+
+                _graphClient.Cypher
+                    .Match("(artist:Artist)")
+                    .Where((Artist artist) => artist.Id == id)
+                    .Delete("artist")
+                    .ExecuteWithoutResults();
+
+                transaction.Commit();
+            }
         }
     }
 }
