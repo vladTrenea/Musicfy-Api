@@ -126,6 +126,9 @@
   <data name="ArtistNameRequired" xml:space="preserve">
     <value>Artist name is required</value>
   </data>
+  <data name="Forbidden" xml:space="preserve">
+    <value>Forbidden</value>
+  </data>
   <data name="InstrumentNameAlreadyExists" xml:space="preserve">
     <value>Instrument name already exists</value>
   </data>

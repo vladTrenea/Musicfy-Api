@@ -2,6 +2,7 @@
 using System.Web.Http;
 using Musicfy.Bll.Contracts;
 using Musicfy.Bll.Models;
+using MusicfyApi.Attributes;
 
 namespace MusicfyApi.Controllers
 {
@@ -16,6 +17,7 @@ namespace MusicfyApi.Controllers
 
         [HttpGet]
         [Route("api/songs/categories")]
+        [CustomAuthorize]
         public IEnumerable<SongCategoryModel> Get()
         {
             return _songCategoryService.GetAll();
@@ -23,6 +25,7 @@ namespace MusicfyApi.Controllers
 
         [HttpGet]
         [Route("api/songs/categories/{id}")]
+        [CustomAuthorize]
         public SongCategoryModel Get([FromUri] string id)
         {
             return _songCategoryService.GetById(id);
@@ -30,6 +33,7 @@ namespace MusicfyApi.Controllers
 
         [HttpPost]
         [Route("api/songs/categories")]
+        [CustomAuthorize(true)]
         public void Post([FromBody] SongCategoryModel songCategoryModel)
         {
             _songCategoryService.Add(songCategoryModel);
@@ -37,6 +41,7 @@ namespace MusicfyApi.Controllers
 
         [HttpPut]
         [Route("api/songs/categories/{id}")]
+        [CustomAuthorize(true)]
         public void Put([FromUri] string id, [FromBody] SongCategoryModel songCategoryModel)
         {
             _songCategoryService.Update(id, songCategoryModel);
@@ -44,6 +49,7 @@ namespace MusicfyApi.Controllers
 
         [HttpDelete]
         [Route("api/songs/categories/{id}")]
+        [CustomAuthorize(true)]
         public void Delete([FromUri] string id)
         {
             _songCategoryService.Delete(id);

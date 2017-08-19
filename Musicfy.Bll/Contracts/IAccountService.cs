@@ -6,6 +6,8 @@ namespace Musicfy.Bll.Contracts
     {
         UserAuthorizationModel Login(LoginModel loginModel);
 
+        UserAuthorizationModel GetUserAuthorization(string userToken);
+
         void Logout(string authToken);
     }
 }

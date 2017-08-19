@@ -50,6 +50,11 @@ namespace Musicfy.Bll.Services
             return authorization;
         }
 
+        public UserAuthorizationModel GetUserAuthorization(string userToken)
+        {
+            return AuthorizationCache.Instance.GetByToken(userToken);
+        }
+
         public void Logout(string authToken)
         {
             var authorization = AuthorizationCache.Instance.GetByToken(authToken);

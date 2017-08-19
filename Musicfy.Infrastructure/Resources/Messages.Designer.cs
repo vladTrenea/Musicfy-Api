@@ -88,6 +88,15 @@ namespace Musicfy.Infrastructure.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Forbidden.
+        /// </summary>
+        public static string Forbidden {
+            get {
+                return ResourceManager.GetString("Forbidden", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Instrument name already exists.
         /// </summary>
         public static string InstrumentNameAlreadyExists {

@@ -1,6 +1,7 @@
 ﻿using System.Web.Http;
 using Musicfy.Bll.Contracts;
 using Musicfy.Bll.Models;
+using MusicfyApi.Attributes;
 using MusicfyApi.Utils;
 
 namespace MusicfyApi.Controllers
@@ -23,6 +24,7 @@ namespace MusicfyApi.Controllers
 
         [HttpPost]
         [Route("api/account/logout")]
+        [CustomAuthorize]
         public void Logout()
         {
             _accountService.Logout(RequestExtractor.GetToken(Request));

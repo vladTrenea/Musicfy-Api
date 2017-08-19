@@ -44,6 +44,7 @@
     <Compile Include="Configs\Config.cs" />
     <Compile Include="Configs\Constants.cs" />
     <Compile Include="Exceptions\ConflictException.cs" />
+    <Compile Include="Exceptions\ForbiddenException.cs" />
     <Compile Include="Exceptions\NotFoundException.cs" />
     <Compile Include="Exceptions\UnauthorizedException.cs" />
     <Compile Include="Exceptions\ValidationException.cs" />
