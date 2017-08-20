@@ -3,6 +3,7 @@ using Musicfy.Bll.Contracts;
 using Musicfy.Bll.Models;
 using Musicfy.Infrastructure.Configs;
 using MusicfyApi.Attributes;
+using MusicfyApi.Utils;
 
 namespace MusicfyApi.Controllers
 {
@@ -48,6 +49,22 @@ namespace MusicfyApi.Controllers
         public void Delete([FromUri] string id)
         {
             _songService.Delete(id);
+        }
+
+        [HttpGet]
+        [Route("api/songs/{id}/preference")]
+        [CustomAuthorize]
+        public bool Preference([FromUri] string id)
+        {
+            return _songService.GetUserSongPreference(id, RequestExtractor.GetToken(Request));
+        }
+
+        [HttpPost]
+        [Route("api/songs/{id}/preference")]
+        [CustomAuthorize]
+        public bool TogglePreference([FromUri] string id)
+        {
+            return _songService.ToggleUserSongPreference(id, RequestExtractor.GetToken(Request));
         }
     }
 }

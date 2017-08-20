@@ -2,6 +2,7 @@
 using Musicfy.Bll.Contracts;
 using Musicfy.Bll.Mappers;
 using Musicfy.Bll.Models;
+using Musicfy.Bll.Utils;
 using Musicfy.Dal.Contracts;
 using Musicfy.Infrastructure.Exceptions;
 using Musicfy.Infrastructure.Resources;
@@ -142,6 +143,47 @@ namespace Musicfy.Bll.Services
             }
 
             _songRepository.Delete(id);
+        }
+
+        public bool GetUserSongPreference(string songId, string userToken)
+        {
+            var userAuthorization = AuthorizationCache.Instance.GetByToken(userToken);
+
+            var song = _songRepository.GetById(songId);
+            if (song == null)
+            {
+                throw new NotFoundException(Messages.InvalidSongId);
+            }
+
+            var currentUser = song.Supporters.FirstOrDefault(s => s.Id == userAuthorization.Id);
+            if (currentUser != null)
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        public bool ToggleUserSongPreference(string songId, string userToken)
+        {
+            var userAuthorization = AuthorizationCache.Instance.GetByToken(userToken);
+            var isUserSupporter = false;
+
+            var song = _songRepository.GetById(songId);
+            if (song == null)
+            {
+                throw new NotFoundException(Messages.InvalidSongId);
+            }
+
+            var currentUser = song.Supporters.FirstOrDefault(s => s.Id == userAuthorization.Id);
+            if (currentUser != null)
+            {
+                isUserSupporter = true;
+            }
+
+            _songRepository.ToggleLike(!isUserSupporter, userAuthorization.Id, songId);
+
+            return !isUserSupporter;
         }
     }
 }

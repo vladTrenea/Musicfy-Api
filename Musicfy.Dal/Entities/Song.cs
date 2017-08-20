@@ -29,5 +29,9 @@ namespace Musicfy.Dal.Entities
         [JsonProperty("tags")]
         [JsonIgnore]
         public IEnumerable<Tag> Tags { get; set; }
+
+        [JsonProperty("supporters")]
+        [JsonIgnore]
+        public IEnumerable<User> Supporters { get; set; }
     }
 }

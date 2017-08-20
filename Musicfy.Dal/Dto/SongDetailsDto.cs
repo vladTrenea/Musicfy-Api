@@ -14,5 +14,7 @@ namespace Musicfy.Dal.Dto
         public IEnumerable<Instrument> Instruments { get; set; }
 
         public IEnumerable<Tag> Tags { get; set; }
+
+        public IEnumerable<User> Supporters { get; set; }
     }
 }

@@ -13,5 +13,9 @@ namespace Musicfy.Bll.Contracts
         void Update(string id, AddUpdateSongModel model);
 
         void Delete(string id);
+
+        bool GetUserSongPreference(string songId, string userToken);
+
+        bool ToggleUserSongPreference(string songId, string userToken);
     }
 }

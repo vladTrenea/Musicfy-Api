@@ -43,13 +43,15 @@ namespace Musicfy.Dal.Repositories
                 .OptionalMatch("(song:Song)-[CATEGORIZED_BY]->(songCategory:SongCategory)")
                 .OptionalMatch("(song:Song)-[CONTAINS]->(instrument:Instrument)")
                 .OptionalMatch("(song:Song)-[DESCRIBED_BY]->(tag:Tag)")
-                .Return((song, artist, songCategory, instrument, tag) => new SongDetailsDto
+                .OptionalMatch("(user:User)-[LIKES]->(song:Song)")
+                .Return((song, artist, songCategory, instrument, tag, user) => new SongDetailsDto
                 {
                     Song = song.As<Song>(),
                     Artist = artist.As<Artist>(),
                     SongCategory = songCategory.As<SongCategory>(),
                     Instruments = instrument.CollectAs<Instrument>(),
-                    Tags = tag.CollectAs<Tag>()
+                    Tags = tag.CollectAs<Tag>(),
+                    Supporters = user.CollectAs<User>()
                 })
                 .Results
                 .FirstOrDefault();
@@ -117,6 +119,34 @@ namespace Musicfy.Dal.Repositories
                     .Where((Song song) => song.Id == id)
                     .Delete("song")
                     .ExecuteWithoutResults();
+                transaction.Commit();
+            }
+        }
+
+        public void ToggleLike(bool likes, string userId, string songId)
+        {
+            var transactionClient = (ITransactionalGraphClient) _graphClient;
+
+            using (var transaction = transactionClient.BeginTransaction())
+            {
+                if (likes)
+                {
+                    _graphClient.Cypher
+                        .Match("(user:User)", "(song:Song)")
+                        .Where((User user) => user.Id == userId)
+                        .AndWhere((Song song) => song.Id == songId)
+                        .CreateUnique("(user)-[:LIKES]->(song)")
+                        .ExecuteWithoutResults();
+                }
+                else
+                {
+                    _graphClient.Cypher
+                        .OptionalMatch("(user:User)-[r]->(song:Song)")
+                        .Where((Song song) => song.Id == songId)
+                        .AndWhere((User user) => user.Id == userId)
+                        .Delete("r")
+                        .ExecuteWithoutResults();
+                }
                 transaction.Commit();
             }
         }

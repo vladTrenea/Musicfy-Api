@@ -17,5 +17,7 @@ namespace Musicfy.Dal.Contracts
         void Update(Song song);
 
         void Delete(string id);
+
+        void ToggleLike(bool likes, string userId, string songId);
     }
 }
