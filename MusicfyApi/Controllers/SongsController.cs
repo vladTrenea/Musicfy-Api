@@ -20,7 +20,7 @@ namespace MusicfyApi.Controllers
         [CustomAuthorize]
         public PaginationModel<SongItemModel> Get(int pageNumber)
         {
-            return _songService.GetPaginated(pageNumber, Config.ArtistsPageCount);
+            return _songService.GetPaginated(pageNumber, Config.SongsPageCount);
         }
 
         [HttpGet]

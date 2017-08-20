@@ -28,5 +28,10 @@ namespace Musicfy.Infrastructure.Configs
         {
             get { return int.Parse(ConfigurationManager.AppSettings["ArtistsPageCount"]); }
         }
+
+        public static int SongsPageCount
+        {
+            get { return int.Parse(ConfigurationManager.AppSettings["SongsPageCount"]); }
+        }
     }
 }
