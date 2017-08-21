@@ -71,9 +71,17 @@ namespace MusicfyApi.Controllers
         [HttpGet]
         [Route("api/songs/{id}/recommendations")]
         [CustomAuthorize]
-        public IEnumerable<SongItemModel> GetRecommendations([FromUri] string id, int count)
+        public IEnumerable<SongItemModel> GetRecommendationsById([FromUri] string id, int count)
         {
             return _songService.GetSongRecommendations(id, RequestExtractor.GetToken(Request), count);
+        }
+
+        [HttpGet]
+        [Route("api/songs/discover")]
+        [CustomAuthorize]
+        public SongsDiscoverModel Discover(string name, int count)
+        {
+            return _songService.DiscoverRelatedSongs(name, RequestExtractor.GetToken(Request), count);
         }
     }
 }

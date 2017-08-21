@@ -20,6 +20,8 @@ namespace Musicfy.Dal.Contracts
 
         void ToggleLike(bool likes, string userId, string songId);
 
-        IEnumerable<SongRecommendationDto> GetSimilar(string songId, string userId, int maxCount);
+        SongRecommendationResultDto GetSimilarById(string songId, string userId, int maxCount);
+
+        SongRecommendationResultDto GetSimilarByTitle(string title, string userId, int maxCount);
     }
 }

@@ -24,10 +24,11 @@ namespace Musicfy.Dal.Repositories
                 .OrderBy("song.title")
                 .Skip((pageNumber - 1)*count)
                 .Limit(count)
-                .Return((song, artist) => new SongDetailsDto {
+                .Return((song, artist) => new SongDetailsDto
+                {
                     Song = song.As<Song>(),
                     Artist = artist.As<Artist>()
-                })  
+                })
                 .Results;
         }
 
@@ -156,28 +157,69 @@ namespace Musicfy.Dal.Repositories
             }
         }
 
-        public IEnumerable<SongRecommendationDto> GetSimilar(string songId, string userId, int maxCount)
+        public SongRecommendationResultDto GetSimilarById(string songId, string userId, int maxCount)
         {
             var currentSong = _graphClient.Cypher
                 .Match("(song:Song)-[CATEGORIZED_BY]->(songCategory:SongCategory)")
+                .Match("(song)-[COMPOSED_BY]->(artist:Artist)")
                 .Where((Song song) => song.Id == songId)
-                .Match("(song)-[CONTAINS]->(instrument:Instrument)")
-                .Return((song, songCategory, instrument) => new SongDetailsDto
+                .Return((song, songCategory, artist) => new SongDetailsDto
                 {
                     Song = song.As<Song>(),
                     SongCategory = songCategory.As<SongCategory>(),
-                    Instruments = instrument.CollectAs<Instrument>()
+                    Artist = artist.As<Artist>()
                 })
                 .Results
                 .FirstOrDefault();
 
+            var songRecommendationResult = new SongRecommendationResultDto();
+            if (currentSong != null && currentSong.Song != null)
+            {
+                songRecommendationResult.RecommendedSongs = GetSimilar(currentSong, userId, maxCount);
+                songRecommendationResult.MatchedSongId = currentSong.Song.Id;
+                songRecommendationResult.MatchedSongTitle = currentSong.Song.Title;
+                songRecommendationResult.MatchedSongArtist = currentSong.Artist;
+            }
+
+            return songRecommendationResult;
+        }
+
+        public SongRecommendationResultDto GetSimilarByTitle(string title, string userId, int maxCount)
+        {
+            var currentSong = _graphClient.Cypher
+                .Match("(song:Song)-[CATEGORIZED_BY]->(songCategory:SongCategory)")
+                .Match("(song)-[COMPOSED_BY]->(artist:Artist)")
+                .Where((Song song) => song.Title == title)
+                .Return((song, songCategory, artist) => new SongDetailsDto
+                {
+                    Song = song.As<Song>(),
+                    SongCategory = songCategory.As<SongCategory>(),
+                    Artist = artist.As<Artist>()
+                })
+                .Results
+                .FirstOrDefault();
+
+            var songRecommendationResult = new SongRecommendationResultDto();
+            if (currentSong != null && currentSong.Song != null)
+            {
+                songRecommendationResult.RecommendedSongs = GetSimilar(currentSong, userId, maxCount);
+                songRecommendationResult.MatchedSongId = currentSong.Song.Id;
+                songRecommendationResult.MatchedSongTitle = currentSong.Song.Title;
+                songRecommendationResult.MatchedSongArtist = currentSong.Artist;
+            }
+
+            return songRecommendationResult;
+        }
+
+        private IEnumerable<SongRecommendationDto> GetSimilar(SongDetailsDto currentSong, string userId, int maxCount)
+        {
             var songRecommendations = _graphClient.Cypher
                 .Match("(song:Song)-[CATEGORIZED_BY]->(songCategory:SongCategory)")
                 .Where((SongCategory songCategory) => songCategory.Id == currentSong.SongCategory.Id)
-                .AndWhere((Song song) => song.Id != songId)
+                .AndWhere((Song song) => song.Id != currentSong.Song.Id)
                 .Match("(song)-[COMPOSED_BY]->(artist:Artist)")
                 .Match("(targetSong:Song)")
-                .Where((Song targetSong) => targetSong.Id == songId)
+                .Where((Song targetSong) => targetSong.Id == currentSong.Song.Id)
                 .OptionalMatch("(song)-[ri:CONTAINS]->(instrument:Instrument)<-[:CONTAINS]-(targetSong)")
                 .OptionalMatch("(song)-[rt:DESCRIBED_BY]->(tag:Tag)<-[:DESCRIBED_BY]-(targetSong)")
                 .OptionalMatch("(user:User)-[LIKES]->(song)")

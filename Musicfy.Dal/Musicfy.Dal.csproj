@@ -55,6 +55,7 @@
     <Compile Include="Contracts\ITagRepository.cs" />
     <Compile Include="Contracts\IUserRepository.cs" />
     <Compile Include="Dto\SongRecommendationDto.cs" />
+    <Compile Include="Dto\SongRecommendationResultDto.cs" />
     <Compile Include="Entities\Artist.cs" />
     <Compile Include="Entities\Instrument.cs" />
     <Compile Include="Entities\SongCategory.cs" />

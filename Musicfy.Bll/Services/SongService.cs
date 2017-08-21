@@ -191,9 +191,43 @@ namespace Musicfy.Bll.Services
         public IEnumerable<SongItemModel> GetSongRecommendations(string songId, string userToken, int maxCount)
         {
             var userAuthorization = AuthorizationCache.Instance.GetByToken(userToken);
-            var songRecommendations = _songRepository.GetSimilar(songId, userAuthorization.Id, maxCount);
+            var songRecommendations = _songRepository.GetSimilarById(songId, userAuthorization.Id, maxCount);
 
-            return songRecommendations.Select(sr => new SongItemModel { Id = sr.Song.Id, Name = sr.Song.Title, Artist = ArtistMapper.ToArtistModel(sr.Artist)});
+            return
+                songRecommendations.RecommendedSongs.Select(
+                    sr =>
+                        new SongItemModel
+                        {
+                            Id = sr.Song.Id,
+                            Name = sr.Song.Title,
+                            Artist = ArtistMapper.ToArtistModel(sr.Artist)
+                        });
+        }
+
+        public SongsDiscoverModel DiscoverRelatedSongs(string name, string userToken, int maxCount)
+        {
+            var userAuthorization = AuthorizationCache.Instance.GetByToken(userToken);
+            var songRecommendationsResult = _songRepository.GetSimilarByTitle(name, userAuthorization.Id, maxCount);
+
+            return new SongsDiscoverModel
+            {
+                MatchedSong = string.IsNullOrEmpty(songRecommendationsResult.MatchedSongId)
+                    ? null
+                    : new SongItemModel
+                    {
+                        Id = songRecommendationsResult.MatchedSongId,
+                        Name = songRecommendationsResult.MatchedSongTitle,
+                        Artist = ArtistMapper.ToArtistModel(songRecommendationsResult.MatchedSongArtist)
+                    },
+                RecommendedSongs = songRecommendationsResult.RecommendedSongs.Select(
+                    sr =>
+                        new SongItemModel
+                        {
+                            Id = sr.Song.Id,
+                            Name = sr.Song.Title,
+                            Artist = ArtistMapper.ToArtistModel(sr.Artist)
+                        })
+            };
         }
     }
 }
