@@ -1,4 +1,5 @@
-﻿using Musicfy.Bll.Models;
+﻿using System.Collections.Generic;
+using Musicfy.Bll.Models;
 
 namespace Musicfy.Bll.Contracts
 {
@@ -17,5 +18,7 @@ namespace Musicfy.Bll.Contracts
         bool GetUserSongPreference(string songId, string userToken);
 
         bool ToggleUserSongPreference(string songId, string userToken);
+
+        IEnumerable<SongRecommendationModel> GetSongRecommendations(string songId, string userToken, int maxCount);
     }
 }

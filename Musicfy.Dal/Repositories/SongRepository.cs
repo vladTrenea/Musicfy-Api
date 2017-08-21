@@ -3,6 +3,7 @@ using System.Linq;
 using Musicfy.Dal.Contracts;
 using Musicfy.Dal.Dto;
 using Musicfy.Dal.Entities;
+using Musicfy.Infrastructure.Configs;
 using Neo4jClient;
 using Neo4jClient.Transactions;
 
@@ -151,6 +152,47 @@ namespace Musicfy.Dal.Repositories
             }
         }
 
+        public IEnumerable<SongRecommendationDto> GetSimilar(string songId, string userId, int maxCount)
+        {
+            var currentSong = _graphClient.Cypher
+                .Match("(song:Song)-[CATEGORIZED_BY]->(songCategory:SongCategory)")
+                .Where((Song song) => song.Id == songId)
+                .Match("(song)-[CONTAINS]->(instrument:Instrument)")
+                .Return((song, songCategory, instrument) => new SongDetailsDto
+                {
+                    Song = song.As<Song>(),
+                    SongCategory = songCategory.As<SongCategory>(),
+                    Instruments = instrument.CollectAs<Instrument>()
+                })
+                .Results
+                .FirstOrDefault();
+
+            var songRecommendations = _graphClient.Cypher
+                .Match("(song:Song)-[CATEGORIZED_BY]->(songCategory:SongCategory)")
+                .Where((SongCategory songCategory) => songCategory.Id == currentSong.SongCategory.Id)
+                .AndWhere((Song song) => song.Id != songId)
+                .Match("(song)-[COMPOSED_BY]->(artist:Artist)")
+                .Match("(targetSong:Song)")
+                .Where((Song targetSong) => targetSong.Id == songId)
+                .OptionalMatch("(song)-[ri:CONTAINS]->(instrument:Instrument)<-[:CONTAINS]-(targetSong)")
+                .OptionalMatch("(song)-[rt:DESCRIBED_BY]->(tag:Tag)<-[:DESCRIBED_BY]-(targetSong)")
+                .OptionalMatch("(user:User)-[LIKES]->(song)")
+                .Where((User user) => user.Id != userId)
+                .ReturnDistinct((song, artist, instrument, tag, user) => new SongRecommendationDto
+                {
+                    Song = song.As<Song>(),
+                    Artist = artist.As<Artist>(),
+                    CommonInstruments = instrument.CountDistinct(),
+                    CommonTags = tag.CountDistinct(),
+                    NumberOfLikes = user.Count()
+                })
+                .Results
+                .OrderByDescending(ComputeRecommendationScore)
+                .Take(maxCount);
+
+            return songRecommendations;
+        }
+
         private void AddSongRelationships(Song songEntity)
         {
             _graphClient.Cypher
@@ -186,6 +228,13 @@ namespace Musicfy.Dal.Repositories
                     .CreateUnique("(song)-[:DESCRIBED_BY]->(tag)")
                     .ExecuteWithoutResults();
             }
+        }
+
+        private long ComputeRecommendationScore(SongRecommendationDto songRecommendationDto)
+        {
+            return songRecommendationDto.CommonInstruments*Config.InstrumentRecommendationImportance
+                   + songRecommendationDto.CommonTags*Config.TagRecommendationImportance
+                   + songRecommendationDto.NumberOfLikes*Config.LikeRecommendationImportance;
         }
     }
 }

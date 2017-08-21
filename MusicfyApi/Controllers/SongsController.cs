@@ -1,4 +1,5 @@
-﻿using System.Web.Http;
+﻿using System.Collections.Generic;
+using System.Web.Http;
 using Musicfy.Bll.Contracts;
 using Musicfy.Bll.Models;
 using Musicfy.Infrastructure.Configs;
@@ -65,6 +66,14 @@ namespace MusicfyApi.Controllers
         public bool TogglePreference([FromUri] string id)
         {
             return _songService.ToggleUserSongPreference(id, RequestExtractor.GetToken(Request));
+        }
+
+        [HttpGet]
+        [Route("api/songs/{id}/recommendations")]
+        [CustomAuthorize]
+        public IEnumerable<SongRecommendationModel> GetRecommendations([FromUri] string id, int count)
+        {
+            return _songService.GetSongRecommendations(id, RequestExtractor.GetToken(Request), count);
         }
     }
 }

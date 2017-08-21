@@ -33,5 +33,20 @@ namespace Musicfy.Infrastructure.Configs
         {
             get { return int.Parse(ConfigurationManager.AppSettings["SongsPageCount"]); }
         }
+
+        public static int InstrumentRecommendationImportance
+        {
+            get { return int.Parse(ConfigurationManager.AppSettings["InstrumentRecommendationImportance"]); }
+        }
+
+        public static int TagRecommendationImportance
+        {
+            get { return int.Parse(ConfigurationManager.AppSettings["TagRecommendationImportance"]); }
+        }
+
+        public static int LikeRecommendationImportance
+        {
+            get { return int.Parse(ConfigurationManager.AppSettings["LikeRecommendationImportance"]); }
+        }
     }
 }

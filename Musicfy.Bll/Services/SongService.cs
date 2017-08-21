@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using Musicfy.Bll.Contracts;
 using Musicfy.Bll.Mappers;
 using Musicfy.Bll.Models;
@@ -18,7 +19,8 @@ namespace Musicfy.Bll.Services
 
         private readonly ISongCategoryRepository _songCategoryRepository;
 
-        public SongService(ISongRepository songRepository, IArtistRepository artistRepository, ISongCategoryRepository songCategoryRepository)
+        public SongService(ISongRepository songRepository, IArtistRepository artistRepository,
+            ISongCategoryRepository songCategoryRepository)
         {
             _songRepository = songRepository;
             _artistRepository = artistRepository;
@@ -184,6 +186,14 @@ namespace Musicfy.Bll.Services
             _songRepository.ToggleLike(!isUserSupporter, userAuthorization.Id, songId);
 
             return !isUserSupporter;
+        }
+
+        public IEnumerable<SongRecommendationModel> GetSongRecommendations(string songId, string userToken, int maxCount)
+        {
+            var userAuthorization = AuthorizationCache.Instance.GetByToken(userToken);
+            var songRecommendations = _songRepository.GetSimilar(songId, userAuthorization.Id, maxCount);
+
+            return songRecommendations.Select(sr => new SongRecommendationModel {Id = sr.Song.Id, Name = sr.Song.Title, Artist = ArtistMapper.ToArtistModel(sr.Artist)});
         }
     }
 }
