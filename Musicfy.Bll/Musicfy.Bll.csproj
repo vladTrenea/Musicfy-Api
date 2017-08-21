@@ -64,7 +64,6 @@
     <Compile Include="Models\SongCategoryModel.cs" />
     <Compile Include="Models\SongModel.cs" />
     <Compile Include="Models\SongItemModel.cs" />
-    <Compile Include="Models\SongRecommendationModel.cs" />
     <Compile Include="Models\TagModel.cs" />
     <Compile Include="Models\UserAuthorizationModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

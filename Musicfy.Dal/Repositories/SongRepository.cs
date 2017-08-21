@@ -15,15 +15,19 @@ namespace Musicfy.Dal.Repositories
         {
         }
 
-        public IEnumerable<Song> GetPaginated(int pageNumber, int count)
+        public IEnumerable<SongDetailsDto> GetPaginated(int pageNumber, int count)
         {
             return _graphClient.Cypher
                 .Match("(song:Song)")
-                .With("song")
+                .Match("(song)-[COMPOSED_BY]->(artist:Artist)")
+                .With("song, artist")
                 .OrderBy("song.title")
                 .Skip((pageNumber - 1)*count)
                 .Limit(count)
-                .Return(song => song.As<Song>())
+                .Return((song, artist) => new SongDetailsDto {
+                    Song = song.As<Song>(),
+                    Artist = artist.As<Artist>()
+                })  
                 .Results;
         }
 
@@ -39,12 +43,12 @@ namespace Musicfy.Dal.Repositories
         public SongDetailsDto GetById(string id)
         {
             return _graphClient.Cypher
-                .OptionalMatch("(song:Song)-[COMPOSED_BY]->(artist:Artist)")
+                .Match("(song:Song)-[COMPOSED_BY]->(artist:Artist)")
                 .Where((Song song) => song.Id == id)
-                .OptionalMatch("(song:Song)-[CATEGORIZED_BY]->(songCategory:SongCategory)")
-                .OptionalMatch("(song:Song)-[CONTAINS]->(instrument:Instrument)")
-                .OptionalMatch("(song:Song)-[DESCRIBED_BY]->(tag:Tag)")
-                .OptionalMatch("(user:User)-[LIKES]->(song:Song)")
+                .Match("(song)-[CATEGORIZED_BY]->(songCategory:SongCategory)")
+                .OptionalMatch("(song)-[CONTAINS]->(instrument:Instrument)")
+                .OptionalMatch("(song)-[DESCRIBED_BY]->(tag:Tag)")
+                .OptionalMatch("(user:User)-[LIKES]->(song)")
                 .Return((song, artist, songCategory, instrument, tag, user) => new SongDetailsDto
                 {
                     Song = song.As<Song>(),

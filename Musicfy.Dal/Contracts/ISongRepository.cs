@@ -6,7 +6,7 @@ namespace Musicfy.Dal.Contracts
 {
     public interface ISongRepository
     {
-        IEnumerable<Song> GetPaginated(int pageNumber, int count);
+        IEnumerable<SongDetailsDto> GetPaginated(int pageNumber, int count);
 
         int GetTotalCount();
 

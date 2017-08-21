@@ -7,17 +7,18 @@ namespace Musicfy.Bll.Mappers
 {
     public static class SongMapper
     {
-        public static SongItemModel ToSongItemModel(Song song)
+        public static SongItemModel ToSongItemModel(SongDetailsDto songDetails)
         {
-            if (song == null)
+            if (songDetails == null)
             {
                 return null;
             }
 
             return new SongItemModel
             {
-                Id = song.Id,
-                Name = song.Title
+                Id = songDetails.Song.Id,
+                Name = songDetails.Song.Title,
+                Artist = ArtistMapper.ToArtistModel(songDetails.Artist)
             };
         }
 

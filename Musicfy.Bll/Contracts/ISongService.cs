@@ -19,6 +19,6 @@ namespace Musicfy.Bll.Contracts
 
         bool ToggleUserSongPreference(string songId, string userToken);
 
-        IEnumerable<SongRecommendationModel> GetSongRecommendations(string songId, string userToken, int maxCount);
+        IEnumerable<SongItemModel> GetSongRecommendations(string songId, string userToken, int maxCount);
     }
 }

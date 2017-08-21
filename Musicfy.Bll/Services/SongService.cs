@@ -188,12 +188,12 @@ namespace Musicfy.Bll.Services
             return !isUserSupporter;
         }
 
-        public IEnumerable<SongRecommendationModel> GetSongRecommendations(string songId, string userToken, int maxCount)
+        public IEnumerable<SongItemModel> GetSongRecommendations(string songId, string userToken, int maxCount)
         {
             var userAuthorization = AuthorizationCache.Instance.GetByToken(userToken);
             var songRecommendations = _songRepository.GetSimilar(songId, userAuthorization.Id, maxCount);
 
-            return songRecommendations.Select(sr => new SongRecommendationModel {Id = sr.Song.Id, Name = sr.Song.Title, Artist = ArtistMapper.ToArtistModel(sr.Artist)});
+            return songRecommendations.Select(sr => new SongItemModel { Id = sr.Song.Id, Name = sr.Song.Title, Artist = ArtistMapper.ToArtistModel(sr.Artist)});
         }
     }
 }

@@ -9,5 +9,8 @@ namespace Musicfy.Bll.Models
 
         [JsonProperty("name")]
         public string Name { get; set; }
+
+        [JsonProperty("artist")]
+        public ArtistModel Artist { get; set; }
     }
 }
